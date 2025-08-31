@@ -1,0 +1,45 @@
+2025-08-31 13:54:43,335 | DEBUG | run logger initialized
+2025-08-31 13:54:43,337 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T17:54:43Z
+2025-08-31 13:54:43,338 | DEBUG | [RUN] params={'mu': 1.0, 'z0': [2, 0], 'eval_time': 50, 't_iteration': 500, 'plot': False}
+2025-08-31 13:54:43,462 | INFO | [RUN] ok | duration=0.050s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:08:07,633 | DEBUG | run logger initialized
+2025-08-31 14:08:07,633 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:08:07Z
+2025-08-31 14:08:07,633 | DEBUG | [RUN] params={'mu': 2.0, 'z0': [1, 1], 'eval_time': 30, 't_iteration': 300, 'plot': False}
+2025-08-31 14:08:08,124 | INFO | [RUN] ok | duration=0.453s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:09:58,485 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:09:58Z
+2025-08-31 14:09:58,485 | DEBUG | [RUN] params={'mu': 1.0, 'z0': [2, 0], 'eval_time': 20, 't_iteration': 200, 'plot': False}
+2025-08-31 14:09:58,538 | INFO | [RUN] ok | duration=0.014s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:09:58,548 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:09:58Z
+2025-08-31 14:09:58,548 | DEBUG | [RUN] params={'mu': 2.0, 'z0': [1, 1], 'eval_time': 25, 't_iteration': 250, 'plot': False}
+2025-08-31 14:09:58,599 | INFO | [RUN] ok | duration=0.014s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:09:58,609 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:09:58Z
+2025-08-31 14:09:58,609 | DEBUG | [RUN] params={'mu': 0.5, 'z0': [3, -1], 'eval_time': 30, 't_iteration': 300, 'plot': False}
+2025-08-31 14:09:58,658 | INFO | [RUN] ok | duration=0.012s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:14:39,807 | DEBUG | run logger initialized
+2025-08-31 14:14:39,807 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:14:39Z
+2025-08-31 14:14:39,807 | DEBUG | [RUN] params={'mu': 1.5, 'z0': [1.5, 0.5], 'eval_time': 40, 't_iteration': 400, 'plot': False}
+2025-08-31 14:14:40,271 | INFO | [RUN] ok | duration=0.426s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:15:06,795 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:15:06Z
+2025-08-31 14:15:06,795 | DEBUG | [RUN] params={'mu': 0.8, 'z0': [1, 0], 'eval_time': 25, 't_iteration': 250, 'plot': False}
+2025-08-31 14:15:06,848 | INFO | [RUN] ok | duration=0.015s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:15:06,869 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:15:06Z
+2025-08-31 14:15:06,869 | DEBUG | [RUN] params={'mu': 1.2, 'z0': [2, 1], 'eval_time': 35, 't_iteration': 350, 'plot': False}
+2025-08-31 14:15:06,922 | INFO | [RUN] ok | duration=0.015s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:26:09,685 | DEBUG | run logger initialized
+2025-08-31 14:26:09,686 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:26:09Z
+2025-08-31 14:26:09,686 | DEBUG | [RUN] params={'mu': 1.0, 'z0': [2, 0], 'eval_time': 30, 't_iteration': 300, 'plot': False}
+2025-08-31 14:26:10,169 | INFO | [RUN] ok | duration=0.446s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 14:26:10,192 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-08-31T18:26:10Z
+2025-08-31 14:26:10,192 | DEBUG | [RUN] params={'mu': 1.5, 'z0': [1.5, 0.5], 'eval_time': 25, 't_iteration': 250, 'plot': False}
+2025-08-31 14:26:10,243 | INFO | [RUN] ok | duration=0.013s | keys=['success', 'solver_message', 't', 'x', 'y', 'x_grid', 'y_grid', 'u_grid']
+2025-08-31 15:23:09,948 | DEBUG | run logger initialized
+2025-08-31 15:23:09,949 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-08-31T19:23:09Z
+2025-08-31 15:23:09,949 | DEBUG | [RUN] params={'mu': 1.5, 'z0': [1.5, 0.5], 'eval_time': 25, 't_iteration': 250, 'plot': False}
+2025-08-31 15:23:09,989 | INFO | [RUN] ok | duration=0.030s | keys=['success', 'message', 'params_used', 't', 'x', 'y', 'equilibria', 'jacobians']
+2025-08-31 16:59:09,855 | DEBUG | run logger initialized
+2025-08-31 16:59:09,855 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-08-31T20:59:09Z
+2025-08-31 16:59:09,855 | DEBUG | [RUN] params={'alpha': '10', 'beta': '', 'delta': '', 'gamma': '', 't_span_param': '', 't_eval_param': '', 'x0_param': '', 'y0_param': '', 'use_scipy': 0.0, 'sol_t': '', 'sol_y': '', 'periods': '', 'mean_period': '', 'tf': '', 'n_points': 2000.0, 't_eval': '', 'nx': 20.0, 'ny': 20.0, 'rtol': 1e-08, 'atol': 1e-10, 'E0': '', 'E1': '', 'J_e0': '', 'J_e1': '', 'eig_e0': '["<ast.Call object at 0x12034efd0>", "<ast.Call object at 0x12034ef90>"]', 'eig_e1': '["<ast.Call object at 0x1203a6590>", "<ast.Call object at 0x1203a4e10>"]', 'y_nc': '', 'x_nc': '', 'xmax': '', 'ymax': '', 'Xg': '', 'Yg': '', 'U': '', 'V': '', 'N': '', 'Un': '[]', 'Vn': '[]', 'X_list': '[]', 'Y_list': '[]', 'use_find_peaks': 0.0, 't0': 0.0, 'x0': '', 'y0': '', 'sol': '', 'te': '', 'n_steps': '', 'y_out': '', 'min_dist': '', 'idxs': '[]', 'last_idx': '', 'val': '', 'fallback_msg': '', 'dt': '', 'k1x': '', 'k1y': '', 'k1': '', 'yk': '', 'k2x': '', 'k2y': '', 'k2': '', 'k3x': '', 'k3y': '', 'k3': '', 'k4x': '', 'k4y': '', 'k4': '', 't_span': '', 'method': '', 'peak_distance': ''}
+2025-08-31 16:59:10,270 | INFO | [RUN] ok | duration=0.414s | keys=['success', 'message', 'params_used']
+2025-08-31 16:59:50,089 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-08-31T20:59:50Z
+2025-08-31 16:59:50,089 | DEBUG | [RUN] params={'alpha': '10', 'beta': '', 'delta': '', 'gamma': '', 't_span_param': '', 't_eval_param': '', 'x0_param': '', 'y0_param': '', 'use_scipy': 0.0, 'sol_t': '', 'sol_y': '', 'periods': '', 'mean_period': '', 'tf': '', 'n_points': 2000.0, 't_eval': '', 'nx': 20.0, 'ny': 20.0, 'rtol': 1e-08, 'atol': 1e-10, 'E0': '', 'E1': '', 'J_e0': '', 'J_e1': '', 'eig_e0': '["<ast.Call object at 0x1204c3ed0>", "<ast.Call object at 0x1204c1250>"]', 'eig_e1': '["<ast.Call object at 0x1204c3e10>", "<ast.Call object at 0x1204c10d0>"]', 'y_nc': '', 'x_nc': '', 'xmax': '', 'ymax': '', 'Xg': '', 'Yg': '', 'U': '', 'V': '', 'N': '', 'Un': '[]', 'Vn': '[]', 'X_list': '[]', 'Y_list': '[]', 'use_find_peaks': 0.0, 't0': 0.0, 'x0': '', 'y0': '', 'sol': '', 'te': '', 'n_steps': '', 'y_out': '', 'min_dist': '', 'idxs': '[]', 'last_idx': '', 'val': '', 'fallback_msg': '', 'dt': '', 'k1x': '', 'k1y': '', 'k1': '', 'yk': '', 'k2x': '', 'k2y': '', 'k2': '', 'k3x': '', 'k3y': '', 'k3': '', 'k4x': '', 'k4y': '', 'k4': '', 't_span': '', 'method': 'RK45', 'peak_distance': ''}
+2025-08-31 16:59:50,433 | INFO | [RUN] ok | duration=0.335s | keys=['success', 'message', 'params_used', 't', 'x', 'y', 'equilibria', 'jacobians']

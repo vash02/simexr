@@ -2,7 +2,7 @@
 
 A comprehensive framework for importing, executing, and analyzing scientific simulations with AI-powered reasoning capabilities.
 
-## 🚀 Overview
+## Overview
 
 SimExR is a FastAPI-based framework that provides a complete pipeline for:
 - **Importing** external simulation scripts from GitHub
@@ -11,7 +11,7 @@ SimExR is a FastAPI-based framework that provides a complete pipeline for:
 - **Analyzing** results using AI-powered reasoning agents
 - **Managing** models, results, and conversations through REST APIs
 
-## 🏗️ Architecture
+## Architecture
 <img width="3840" height="1004" alt="arch" src="https://github.com/user-attachments/assets/cd26cc8e-2b12-40a8-be8b-5213b767d422" />
 
 
@@ -50,7 +50,7 @@ simexr_mod/
 └── utils/                 # Configuration and utilities
 ```
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 
@@ -86,7 +86,7 @@ openai:
 
 The framework uses SQLite by default. The database will be automatically created at `mcp.db` on first run.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Option 1: Web UI (Recommended)
 
@@ -98,9 +98,9 @@ python start_streamlit.py
 ```
 
 This will automatically:
-- ✅ Start the API server
-- ✅ Launch the Streamlit web interface
-- ✅ Open your browser to http://localhost:8501
+- Start the API server
+- Launch the Streamlit web interface
+- Open your browser to http://localhost:8501
 
 ### Option 2: API Only
 
@@ -163,29 +163,29 @@ curl -X POST "http://127.0.0.1:8001/reasoning/ask" \
   }'
 ```
 
-## 🌐 Web Interface
+## Web Interface
 
 The SimExR framework includes a modern, user-friendly web interface built with Streamlit:
 
-### 📱 Interface Pages
+### Interface Pages
 
-- **🏠 Dashboard**: Overview of system status, recent activity, and quick actions
-- **📥 Import Models**: Import and transform scripts from GitHub URLs
-- **⚙️ Run Simulations**: Execute single or batch simulations with custom parameters
-- **📊 View Results**: Explore simulation results with interactive data tables
-- **🤖 AI Analysis**: Ask AI-powered questions about your simulation results
-- **🔍 Model Search**: Search and browse all available models
+- **Dashboard**: Overview of system status, recent activity, and quick actions
+- **Import Models**: Import and transform scripts from GitHub URLs
+- **⚙Run Simulations**: Execute single or batch simulations with custom parameters
+- **View Results**: Explore simulation results with interactive data tables
+- **AI Analysis**: Ask AI-powered questions about your simulation results
+- **Model Search**: Search and browse all available models
 
-### 🎯 Key Features
+### Key Features
 
-- **🔍 Fuzzy Search**: Intelligent model search with relevance scoring
-- **📊 Interactive Results**: View and download simulation results as CSV
-- **🤖 AI Chat**: Natural language analysis of simulation data
-- **⚙️ Parameter Management**: Edit and manage simulation parameters
-- **📝 Script Editor**: View and edit simulation scripts
-- **📋 Templates**: Pre-built parameter templates for common systems
+- **Fuzzy Search**: Intelligent model search with relevance scoring
+- **Interactive Results**: View and download simulation results as CSV
+- **AI Chat**: Natural language analysis of simulation data
+- **⚙Parameter Management**: Edit and manage simulation parameters
+- **Script Editor**: View and edit simulation scripts
+- **Templates**: Pre-built parameter templates for common systems
 
-## 📊 API Endpoints
+## API Endpoints
 
 ### Health Check APIs
 - `GET /health/status` - System health status
@@ -330,7 +330,7 @@ curl -X POST "http://127.0.0.1:8001/reasoning/ask" \
   }'
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -398,25 +398,15 @@ python start_api.py --host 127.0.0.1 --port 8001
 - Use streaming responses for long analyses
 - Optimize prompt engineering for faster responses
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 ### Planned Features
 
-- **Web UI**: Interactive web interface for model management
-- **Real-time Monitoring**: Live simulation progress tracking
-- **Distributed Computing**: Multi-node simulation execution
-- **Advanced Analytics**: Statistical analysis and visualization
-- **Model Versioning**: Version control for simulation models
-- **Plugin System**: Extensible architecture for custom components
-- **Computational Model MCP Server**: MCP server for standardizing end to end scientific simulation workflows
-- **Complete agentic Control**: Agentic control from experiment initiation to results analysis & rerun.
-
-### Integration Possibilities
-
-- **Jupyter Notebooks**: Direct integration with Jupyter
-- **Cloud Platforms**: AWS, GCP, Azure deployment
-- **Scientific Workflows**: Integration with workflow engines
-- **Data Lakes**: Large-scale data storage and processing
+- MCP Server Integration: Standard protocol or MCP server for agentic control of scientific experimentation workflow
+- Advanced Exploration: Using better techniques for domain specific param space exploration
+- Cybershuttle Integration: Imntegration with research jupyter notebooks on cybershuttle
+- Plugin System: Extensible architecture for custom features
+- Integration APIs: Connect with other scientific tools and platforms
 
 ## 📄 License
 

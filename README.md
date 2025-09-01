@@ -12,6 +12,8 @@ SimExR is a FastAPI-based framework that provides a complete pipeline for:
 - **Managing** models, results, and conversations through REST APIs
 
 ## 🏗️ Architecture
+<img width="3840" height="1004" alt="arch" src="https://github.com/user-attachments/assets/cd26cc8e-2b12-40a8-be8b-5213b767d422" />
+
 
 ### Core Components
 

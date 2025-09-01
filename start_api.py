@@ -17,16 +17,29 @@ sys.path.insert(0, str(project_root))
 
 def main():
     # Set OpenAI API key globally at startup
-    try:
-        from utils.config import settings
-        api_key = settings.openai_api_key
-        if api_key:
-            os.environ["OPENAI_API_KEY"] = api_key
-            print(f"🔑 OpenAI API key set globally: {api_key[:10]}...")
-        else:
-            print("⚠️  Warning: No OpenAI API key found in config")
-    except Exception as e:
-        print(f"⚠️  Warning: Could not load OpenAI API key from config: {e}")
+    # Check if API key is already set in environment
+    if os.environ.get("OPENAI_API_KEY"):
+        print(f"🔑 OpenAI API key already set in environment: {os.environ['OPENAI_API_KEY'][:10]}...")
+        # Ensure this environment variable is used and not overridden by config
+        api_key = os.environ["OPENAI_API_KEY"]
+    else:
+        try:
+            from utils.config import settings
+            api_key = settings.openai_api_key
+            if api_key:
+                os.environ["OPENAI_API_KEY"] = api_key
+                print(f"🔑 OpenAI API key set from config: {api_key[:10]}...")
+            else:
+                print("⚠️  Warning: No OpenAI API key found in config")
+                api_key = None
+        except Exception as e:
+            print(f"⚠️  Warning: Could not load OpenAI API key from config: {e}")
+            api_key = None
+    
+    # Force set the environment variable to ensure it's used
+    if api_key:
+        os.environ["OPENAI_API_KEY"] = api_key
+        print(f"🔑 Final OpenAI API key set: {api_key[:10]}...")
     
     parser = argparse.ArgumentParser(description="Start SimExR API Server")
     parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")

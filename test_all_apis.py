@@ -13,7 +13,7 @@ import sys
 from typing import Dict, Any, List
 
 # Configuration
-BASE_URL = "http://127.0.0.1:8001"
+BASE_URL = "http://127.0.0.1:8000"
 GITHUB_URL = "https://github.com/vash02/physics-systems-dataset/blob/main/vanderpol.py"
 MODEL_NAME = "vanderpol_transform_test"
 
@@ -381,7 +381,7 @@ def main():
             sys.exit(1)
     except requests.exceptions.RequestException:
         print(f"❌ Cannot connect to server at {BASE_URL}")
-        print("💡 Make sure the server is running with: python start_api.py --host 127.0.0.1 --port 8001")
+        print("💡 Make sure the server is running with: python start_api.py --host 127.0.0.1 --port 8000")
         sys.exit(1)
         
     # Run tests

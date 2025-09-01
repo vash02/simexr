@@ -210,7 +210,6 @@ The SimExR framework includes a modern, user-friendly web interface built with S
 ### Database APIs (Read-only)
 - `GET /database/results` - Get simulation results
 - `GET /database/models` - Get database models
-- `GET /database/stats` - Get database statistics
 
 ## 🧪 Testing Results
 

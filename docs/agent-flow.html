@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimExR Agent Flow Architecture</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .diagram-section {
+            background: white;
+            margin: 30px 0;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .mermaid {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .flow-description {
+            background: #f6f8fa;
+            padding: 25px;
+            border-left: 4px solid #0366d6;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .step-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .step-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        .step-card.transform { border-left-color: #1976d2; }
+        .step-card.parameter { border-left-color: #388e3c; }
+        .step-card.execution { border-left-color: #f57c00; }
+        .step-card.reasoning { border-left-color: #7b1fa2; }
+        .nav-buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #0366d6;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 0 10px;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #0256cc; }
+        .data-flow {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .operations-flow {
+            background: #f3e5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 SimExR Agent Flow Architecture</h1>
+        <p>High-Level Data and Operations Flow</p>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="test.html" class="btn">← Main Documentation</a>
+        <a href="diagrams.html" class="btn">Detailed Diagrams</a>
+    </div>
+
+    <!-- High-Level Agent Flow -->
+    <div class="diagram-section">
+        <h2>🔄 Agent-Based Architecture Flow</h2>
+        <div class="flow-description">
+            <strong>High-Level Overview:</strong> This diagram shows the complete flow of data and operations through the three intelligent agents in SimExR, from initial script import to final AI insights.
+        </div>
+        
+        <div class="mermaid">
+            flowchart TD
+                subgraph "🌐 Input Sources"
+                    GH[📂 GitHub Repository<br/>Raw simulation scripts]
+                    USER[👤 User Request<br/>Parameters & questions]
+                end
+                
+                subgraph "🤖 Agent Pipeline"
+                    TRANSFORM[🔄 Transform Agent<br/><br/>📥 Input: Raw scripts<br/>🔧 Process: Import & refactor<br/>📤 Output: Standard simulate() function]
+                    
+                    PARAM[📊 Parameter Agent<br/><br/>📥 Input: Standardized script<br/>🔧 Process: Extract & validate parameters<br/>📤 Output: Parameter schema & metadata]
+                    
+                    EXEC[⚡ Execution Engine<br/><br/>📥 Input: Script + parameters<br/>🔧 Process: Safe simulation execution<br/>📤 Output: Simulation results]
+                    
+                    REASON[🧠 Reasoning Agent<br/><br/>📥 Input: Results + questions<br/>🔧 Process: AI analysis & insights<br/>📤 Output: Scientific answers & visualizations]
+                end
+                
+                subgraph "💾 Data Flow"
+                    STORAGE[(🗃️ Persistent Storage<br/><br/>• Model repository<br/>• Parameter schemas<br/>• Simulation results<br/>• AI conversations)]
+                end
+                
+                subgraph "🖥️ User Output"
+                    RESULTS[📊 Simulation Results<br/>Numerical data & metrics]
+                    INSIGHTS[🧠 AI Insights<br/>Scientific analysis & visualizations]
+                    API[🔌 API Responses<br/>Structured JSON data]
+                end
+                
+                %% Main flow
+                GH --> TRANSFORM
+                USER --> PARAM
+                USER --> REASON
+                
+                TRANSFORM --> PARAM
+                PARAM --> EXEC
+                EXEC --> REASON
+                
+                %% Data storage
+                TRANSFORM --> STORAGE
+                PARAM --> STORAGE
+                EXEC --> STORAGE
+                REASON --> STORAGE
+                
+                %% Output generation
+                EXEC --> RESULTS
+                REASON --> INSIGHTS
+                TRANSFORM --> API
+                PARAM --> API
+                EXEC --> API
+                REASON --> API
+                
+                %% Styling
+                classDef agent fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+                classDef input fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+                classDef storage fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+                classDef output fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+                
+                class TRANSFORM,PARAM,EXEC,REASON agent
+                class GH,USER input
+                class STORAGE storage
+                class RESULTS,INSIGHTS,API output
+        </div>
+    </div>
+
+    <!-- Data Flow Details -->
+    <div class="diagram-section">
+        <h2>📊 Data Flow Through Agents</h2>
+        <div class="flow-description">
+            <strong>Data Transformation:</strong> Shows how data is transformed and enriched as it flows through each agent layer.
+        </div>
+        
+        <div class="mermaid">
+            graph LR
+                subgraph "📥 Input Data"
+                    RAW[Raw GitHub Script<br/>• Unstructured code<br/>• Mixed formats<br/>• Potential errors]
+                end
+                
+                subgraph "🔄 Transform Agent"
+                    CLEAN[Cleaned Script<br/>• Standard format<br/>• simulate() function<br/>• Validated syntax]
+                end
+                
+                subgraph "📊 Parameter Agent"
+                    SCHEMA[Parameter Schema<br/>• Extracted parameters<br/>• Type definitions<br/>• Default values<br/>• Validation rules]
+                end
+                
+                subgraph "⚡ Execution Engine"
+                    SIMDATA[Simulation Data<br/>• Numerical results<br/>• Performance metrics<br/>• Execution logs<br/>• Error handling]
+                end
+                
+                subgraph "🧠 Reasoning Agent"
+                    INSIGHTS[Scientific Insights<br/>• Data analysis<br/>• Pattern recognition<br/>• Visualizations<br/>• Natural language answers]
+                end
+                
+                RAW --> CLEAN
+                CLEAN --> SCHEMA
+                SCHEMA --> SIMDATA
+                SIMDATA --> INSIGHTS
+                
+                %% Data enrichment annotations
+                RAW -.->|"Data Quality: Low"| CLEAN
+                CLEAN -.->|"Data Quality: Medium"| SCHEMA
+                SCHEMA -.->|"Data Quality: High"| SIMDATA
+                SIMDATA -.->|"Data Quality: Enriched"| INSIGHTS
+        </div>
+    </div>
+
+    <!-- Operations Flow -->
+    <div class="diagram-section">
+        <h2>⚙️ Operations Flow</h2>
+        <div class="flow-description">
+            <strong>Operation Sequence:</strong> Shows the sequence of operations and decision points in the agent pipeline.
+        </div>
+        
+        <div class="mermaid">
+            flowchart TD
+                START([🚀 User Initiates Process])
+                
+                subgraph "🔄 Transform Operations"
+                    T1[Import script from GitHub]
+                    T2{Script valid?}
+                    T3[Refactor to standard format]
+                    T4[Run smoke tests]
+                    T5{Tests pass?}
+                    T6[Auto-fix issues]
+                    T7[Store cleaned script]
+                end
+                
+                subgraph "📊 Parameter Operations"
+                    P1[Analyze script structure]
+                    P2[Extract function parameters]
+                    P3[Infer parameter types]
+                    P4[Generate validation schema]
+                    P5[Store parameter metadata]
+                end
+                
+                subgraph "⚡ Execution Operations"
+                    E1[Validate input parameters]
+                    E2{Parameters valid?}
+                    E3[Execute simulation]
+                    E4[Monitor progress]
+                    E5[Collect results]
+                    E6[Store simulation data]
+                end
+                
+                subgraph "🧠 Reasoning Operations"
+                    R1[Load simulation results]
+                    R2[Analyze data patterns]
+                    R3[Process user question]
+                    R4[Generate insights]
+                    R5[Create visualizations]
+                    R6[Store conversation]
+                end
+                
+                END([✅ Process Complete])
+                ERROR([❌ Error Handling])
+                
+                START --> T1
+                T1 --> T2
+                T2 -->|Yes| T3
+                T2 -->|No| ERROR
+                T3 --> T4
+                T4 --> T5
+                T5 -->|Yes| T7
+                T5 -->|No| T6
+                T6 --> T4
+                T7 --> P1
+                
+                P1 --> P2
+                P2 --> P3
+                P3 --> P4
+                P4 --> P5
+                P5 --> E1
+                
+                E1 --> E2
+                E2 -->|Yes| E3
+                E2 -->|No| ERROR
+                E3 --> E4
+                E4 --> E5
+                E5 --> E6
+                E6 --> R1
+                
+                R1 --> R2
+                R2 --> R3
+                R3 --> R4
+                R4 --> R5
+                R5 --> R6
+                R6 --> END
+                
+                ERROR --> END
+        </div>
+    </div>
+
+    <!-- Agent Responsibilities -->
+    <div class="diagram-section">
+        <h2>🎯 Agent Responsibilities & Capabilities</h2>
+        
+        <div class="step-grid">
+            <div class="step-card transform">
+                <h3>🔄 Transform Agent</h3>
+                <div class="data-flow">
+                    <strong>Data Flow:</strong>
+                    <ul>
+                        <li><strong>Input:</strong> Raw GitHub scripts (any format)</li>
+                        <li><strong>Process:</strong> Parse, refactor, validate, optimize</li>
+                        <li><strong>Output:</strong> Standardized simulate() function</li>
+                    </ul>
+                </div>
+                <div class="operations-flow">
+                    <strong>Key Operations:</strong>
+                    <ul>
+                        <li>Script import and parsing</li>
+                        <li>Code structure analysis</li>
+                        <li>Function standardization</li>
+                        <li>Error detection and correction</li>
+                        <li>Performance optimization</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step-card parameter">
+                <h3>📊 Parameter Agent</h3>
+                <div class="data-flow">
+                    <strong>Data Flow:</strong>
+                    <ul>
+                        <li><strong>Input:</strong> Standardized script</li>
+                        <li><strong>Process:</strong> Extract, analyze, validate parameters</li>
+                        <li><strong>Output:</strong> Parameter schema and metadata</li>
+                    </ul>
+                </div>
+                <div class="operations-flow">
+                    <strong>Key Operations:</strong>
+                    <ul>
+                        <li>Parameter discovery and extraction</li>
+                        <li>Type inference and validation</li>
+                        <li>Dependency mapping</li>
+                        <li>Default value assignment</li>
+                        <li>Constraint definition</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step-card execution">
+                <h3>⚡ Execution Engine</h3>
+                <div class="data-flow">
+                    <strong>Data Flow:</strong>
+                    <ul>
+                        <li><strong>Input:</strong> Script + validated parameters</li>
+                        <li><strong>Process:</strong> Safe execution with monitoring</li>
+                        <li><strong>Output:</strong> Simulation results and metrics</li>
+                    </ul>
+                </div>
+                <div class="operations-flow">
+                    <strong>Key Operations:</strong>
+                    <ul>
+                        <li>Secure code execution</li>
+                        <li>Resource management</li>
+                        <li>Progress tracking</li>
+                        <li>Error handling</li>
+                        <li>Result collection</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step-card reasoning">
+                <h3>🧠 Reasoning Agent</h3>
+                <div class="data-flow">
+                    <strong>Data Flow:</strong>
+                    <ul>
+                        <li><strong>Input:</strong> Results + user questions</li>
+                        <li><strong>Process:</strong> AI analysis and reasoning</li>
+                        <li><strong>Output:</strong> Insights and visualizations</li>
+                    </ul>
+                </div>
+                <div class="operations-flow">
+                    <strong>Key Operations:</strong>
+                    <ul>
+                        <li>Data pattern analysis</li>
+                        <li>Scientific reasoning</li>
+                        <li>Question interpretation</li>
+                        <li>Visualization generation</li>
+                        <li>Natural language responses</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="test.html" class="btn">← Main Documentation</a>
+        <a href="diagrams.html" class="btn">Detailed Diagrams</a>
+        <a href="COMPLETE_DOCUMENTATION.md" class="btn">Full Documentation</a>
+    </div>
+
+    <footer style="text-align: center; margin-top: 50px; padding: 20px; color: #666;">
+        <p><strong>SimExR Agent Flow Architecture</strong> - High-level data and operations flow</p>
+        <p>Focus: Agent capabilities and data transformation pipeline</p>
+    </footer>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#0366d6',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#0256cc',
+                lineColor: '#666',
+                secondaryColor: '#f8f9fa',
+                tertiaryColor: '#e1e4e8',
+                background: '#ffffff',
+                mainBkg: '#f8f9fa',
+                secondBkg: '#e1e4e8',
+                tertiaryBkg: '#ffffff'
+            },
+            flowchart: {
+                nodeSpacing: 60,
+                rankSpacing: 80,
+                curve: 'basis',
+                padding: 20
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+# GitHub Pages Configuration for SimExR Documentation
+
+# Site settings
+title: "SimExR Documentation"
+description: "Simulation Execution and Reasoning Framework - Complete Documentation"
+url: "https://your-username.github.io"
+baseurl: "/simexr_mod"
+
+# Theme
+theme: minima
+remote_theme: pages-themes/cayman@v0.2.0
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Markdown settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Navigation
+navigation:
+  - title: "Home"
+    url: "/"
+  - title: "Complete Documentation"
+    url: "/docs/COMPLETE_DOCUMENTATION"
+  - title: "API Reference"
+    url: "/docs/API_REFERENCE"
+  - title: "Quick Start"
+    url: "/docs/QUICK_START"
+  - title: "Examples"
+    url: "/docs/EXAMPLES"
+
+# GitHub repository
+repository: "your-username/simexr_mod"
+
+# Social links
+github_username: your-username
+
+# Build settings
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - __pycache__/
+  - "*.pyc"
+  - .git/
+  - .gitignore
+  - README.md
+
+# Include documentation files
+include:
+  - docs/

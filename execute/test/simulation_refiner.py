@@ -19,6 +19,7 @@ class SimulationRefiner:
     """
     script_path: Path
     model_name: str
+    metadata: dict = field(default_factory=dict)  # Store metadata for database
     max_iterations: int = 3
     smoke_tester: SmokeTester = field(default_factory=SmokeTester)
     agent: "FixAgent" = field(default=None)  # Lazy loaded to avoid langchain_openai dependency
@@ -30,7 +31,7 @@ class SimulationRefiner:
                 print(f"[✓] simulate.py passed smoke test on iteration {i}")
                 final_model_id = store_simulation_script(
                     model_name=self.model_name,
-                    metadata={},  # keep parity with your original
+                    metadata=self.metadata,  # Use the actual metadata passed in
                     script_path=str(self.script_path),
                 )
                 return final_model_id

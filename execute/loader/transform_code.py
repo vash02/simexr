@@ -73,6 +73,7 @@ class ExternalScriptImporter:
             refiner = SimulationRefiner(
                 script_path=script_path,
                 model_name=model_name,
+                metadata=metadata,  # Pass the extracted metadata
                 max_iterations=max_smoke_iters
             )
             model_id = refiner.refine()

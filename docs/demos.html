@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimExR Demo Videos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .demo-section h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .demo-section p {
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .video-placeholder {
+            background: linear-gradient(45deg, #f0f2f5, #e2e8f0);
+            border: 2px dashed #cbd5e0;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        .video-placeholder .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .feature-demo {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-demo:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-demo h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .feature-demo .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .navigation {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .nav-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 0 10px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .instructions li:before {
+            content: "📁";
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 SimExR Demo Videos</h1>
+            <p>Interactive demonstrations of SimExR's intelligent simulation capabilities</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>📁 How to Add Your Demo Videos</h3>
+            <ul>
+                <li>Place your video files in the <code>docs/videos/</code> directory</li>
+                <li>Supported formats: MP4, WebM, MOV, GIF</li>
+                <li>Update the video src attributes below to point to your files</li>
+                <li>Recommended naming: import-demo.mp4, execution-demo.mp4, etc.</li>
+            </ul>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🔄 Complete End-to-End Workflow</h2>
+            <p>Watch the complete SimExR workflow from importing a simulation to getting AI-powered insights. This comprehensive demo shows all three agents working together seamlessly.</p>
+            
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <span class="upload-icon">🎥</span>
+                    <strong>End-to-End Workflow Demo</strong><br>
+                    Place your complete workflow video here:<br>
+                    <code>videos/end-to-end-demo.mp4</code>
+                </div>
+                <!-- Uncomment and update when you add your video:
+                <video controls poster="videos/end-to-end-poster.jpg">
+                    <source src="videos/end-to-end-demo.mp4" type="video/mp4">
+                    <source src="videos/end-to-end-demo.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+                -->
+            </div>
+        </div>
+        
+        <div class="demo-grid">
+            <div class="feature-demo">
+                <span class="icon">📥</span>
+                <h3>Import & Transform</h3>
+                <p>See how SimExR's Transform Agent automatically converts raw simulation code into standardized functions.</p>
+                
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <span class="upload-icon">🎬</span>
+                        <strong>Import Demo</strong><br>
+                        <code>videos/import-demo.mp4</code>
+                    </div>
+                    <!-- Uncomment when you add your video:
+                    <video controls>
+                        <source src="videos/import-demo.mp4" type="video/mp4">
+                        <source src="videos/import-demo.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    -->
+                </div>
+            </div>
+            
+            <div class="feature-demo">
+                <span class="icon">🔧</span>
+                <h3>Parameter Extraction</h3>
+                <p>Watch the Parameter Agent automatically discover and validate simulation parameters without manual specification.</p>
+                
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <span class="upload-icon">🎬</span>
+                        <strong>Parameter Demo</strong><br>
+                        <code>videos/parameter-demo.mp4</code>
+                    </div>
+                    <!-- Uncomment when you add your video:
+                    <video controls>
+                        <source src="videos/parameter-demo.mp4" type="video/mp4">
+                        <source src="videos/parameter-demo.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    -->
+                </div>
+            </div>
+            
+            <div class="feature-demo">
+                <span class="icon">⚡</span>
+                <h3>Safe Execution</h3>
+                <p>Experience real-time simulation execution with comprehensive monitoring and automatic result visualization.</p>
+                
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <span class="upload-icon">🎬</span>
+                        <strong>Execution Demo</strong><br>
+                        <code>videos/execution-demo.mp4</code>
+                    </div>
+                    <!-- Uncomment when you add your video:
+                    <video controls>
+                        <source src="videos/execution-demo.mp4" type="video/mp4">
+                        <source src="videos/execution-demo.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    -->
+                </div>
+            </div>
+            
+            <div class="feature-demo">
+                <span class="icon">🧠</span>
+                <h3>AI Analysis & Reasoning</h3>
+                <p>Discover how the Reasoning Agent provides intelligent scientific insights and answers questions in natural language.</p>
+                
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <span class="upload-icon">🎬</span>
+                        <strong>AI Reasoning Demo</strong><br>
+                        <code>videos/reasoning-demo.mp4</code>
+                    </div>
+                    <!-- Uncomment when you add your video:
+                    <video controls>
+                        <source src="videos/reasoning-demo.mp4" type="video/mp4">
+                        <source src="videos/reasoning-demo.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    -->
+                </div>
+            </div>
+            
+            <div class="feature-demo">
+                <span class="icon">📊</span>
+                <h3>Data Visualization</h3>
+                <p>See automatic generation of scientific plots, charts, and interactive visualizations from simulation results.</p>
+                
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <span class="upload-icon">🎬</span>
+                        <strong>Visualization Demo</strong><br>
+                        <code>videos/visualization-demo.mp4</code>
+                    </div>
+                    <!-- Uncomment when you add your video:
+                    <video controls>
+                        <source src="videos/visualization-demo.mp4" type="video/mp4">
+                        <source src="videos/visualization-demo.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    -->
+                </div>
+            </div>
+            
+            <div class="feature-demo">
+                <span class="icon">🎯</span>
+                <h3>Research Workflow</h3>
+                <p>Learn how researchers use SimExR for parameter studies, hypothesis testing, and scientific discovery.</p>
+                
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <span class="upload-icon">🎬</span>
+                        <strong>Research Demo</strong><br>
+                        <code>videos/research-demo.mp4</code>
+                    </div>
+                    <!-- Uncomment when you add your video:
+                    <video controls>
+                        <source src="videos/research-demo.mp4" type="video/mp4">
+                        <source src="videos/research-demo.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                    -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <a href="documentation.html" class="nav-btn">🏠 Home</a>
+            <a href="agent-flow.html" class="nav-btn">🤖 Agent Architecture</a>
+            <a href="api-reference.html" class="nav-btn">📚 API Reference</a>
+            <a href="complete-documentation.html" class="nav-btn">📖 Complete Docs</a>
+        </div>
+    </div>
+</body>
+</html>

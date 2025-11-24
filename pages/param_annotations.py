@@ -9,7 +9,7 @@ from typing import Dict, List, Any
 import time
 
 # API Configuration
-API_BASE_URL = "http://127.0.0.1:8001"
+API_BASE_URL = "http://127.0.0.1:8000"
 
 def make_api_request(method: str, endpoint: str, data: Dict = None, params: Dict = None) -> Dict:
     """Make an API request and return the response."""

@@ -18,6 +18,14 @@ def refactor_to_single_entry(
     which overrides all internally defined parameters and returns a dict.
     Uses an agentic retry loop to recover from malformed generations.
     """
+    # Ensure OpenAI API key is configured globally
+    try:
+        from utils.openai_config import ensure_openai_api_key
+        ensure_openai_api_key()
+        print("[LLM_REFACTOR] OpenAI API key configured globally")
+    except Exception as e:
+        print(f"[LLM_REFACTOR] Warning: Could not configure OpenAI API key: {e}")
+    
     print(f"[LLM_REFACTOR] Starting refactor_to_single_entry for {script_path}")
     original_source = script_path.read_text().strip()
     print(f"[LLM_REFACTOR] Original source length: {len(original_source)}")

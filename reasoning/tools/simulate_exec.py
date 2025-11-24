@@ -130,3 +130,42 @@ class SimulateTools(BaseSimulationTool):
         grid = payload.get("grid", [])
         rows = self.run_batch_for_model(grid=grid, model_id=model_id)
         return json.dumps(rows)
+
+# ======================== LangChain Tool Adapters ========================
+from langchain_core.tools import BaseTool
+from pydantic import Field, PrivateAttr
+
+
+class RunSimulationTool(BaseTool):
+    """LangChain tool wrapper that exposes `_run` for a single simulation run."""
+    name: str = Field("run_simulation_for_model")
+    description: str = (
+        "Run ONE simulation for the bound model_id and append results to DB."
+    )
+    _sim: SimulateTools = PrivateAttr()
+
+    def __init__(self, sim: SimulateTools):
+        super().__init__()
+        self._sim = sim
+
+    def _run(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        params: Dict[str, Any] = args.get("params", {}) if isinstance(args, dict) else {}
+        return self._sim.run_simulation_for_model(params=params)
+
+
+class RunBatchTool(BaseTool):
+    """LangChain tool wrapper that exposes `_run` for batch simulation runs."""
+    name: str = Field("run_batch_for_model")
+    description: str = (
+        "Run a small batch (≤ 24) of parameter dicts for the bound model_id and append results."
+    )
+    _sim: SimulateTools = PrivateAttr()
+
+    def __init__(self, sim: SimulateTools):
+        super().__init__()
+        self._sim = sim
+
+    def _run(self, args: Dict[str, Any]) -> Dict[str, Any]:
+        grid: List[Dict[str, Any]] = args.get("grid", []) if isinstance(args, dict) else []
+        rows = self._sim.run_batch_for_model(grid=grid)
+        return {"ok": True, "rows": rows}

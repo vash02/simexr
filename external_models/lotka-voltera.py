@@ -1,342 +1,334 @@
 def simulate(**params):
     import math
+    results = {}
     try:
         import numpy as np
     except Exception as e:
-        return {"success": False, "message": f"Missing dependency numpy: {e}"}
-
-    # --- Parameter defaults and robust casting ---
-    # Helper: robust cast inline (no function defs)
-    def _robust_to_float(val, fallback):
-        try:
-            if isinstance(val, (list, tuple, np.ndarray)):
-                val = val[0]
-            return float(val)
-        except Exception:
-            try:
-                return float(fallback)
-            except Exception:
-                return fallback
-
-    # Read scalar parameters with reasonable defaults
-    alpha = _robust_to_float(params.get("alpha", 1.0), 1.0)
-    beta = _robust_to_float(params.get("beta", 0.1), 0.1)
-    delta = _robust_to_float(params.get("delta", 0.075), 0.075)
-    gamma = _robust_to_float(params.get("gamma", 1.5), 1.5)
-
-    # Time span
-    t_span_param = params.get("t_span", (0.0, 60.0))
+        return {"success": False, "error": f"numpy import failed: {e}"}
     try:
-        if isinstance(t_span_param, (list, tuple, np.ndarray)) and len(t_span_param) >= 2:
-            t0 = float(t_span_param[0])
-            tf = float(t_span_param[1])
-        elif isinstance(t_span_param, (int, float)):
-            t0 = 0.0
-            tf = float(t_span_param)
-        else:
-            raise ValueError("Invalid t_span")
-    except Exception:
-        t0, tf = 0.0, 60.0
-    if tf <= t0:
-        tf = t0 + abs(tf - t0) if tf != t0 else t0 + 60.0
+        from scipy.integrate import solve_ivp
+    except Exception as e:
+        return {"success": False, "error": f"scipy.integrate.solve_ivp import failed: {e}"}
 
-    # t_eval: accept int (npoints) or array-like
-    t_eval_param = params.get("t_eval", None)
-    if t_eval_param is None:
-        n_points = int(params.get("n_points", 2000))
-        if n_points < 2:
-            n_points = 2000
-        t_eval = np.linspace(t0, tf, n_points)
-    else:
-        try:
-            if isinstance(t_eval_param, (int, np.integer)):
-                n_points = int(t_eval_param)
-                if n_points < 2:
-                    n_points = 2000
-                t_eval = np.linspace(t0, tf, n_points)
-            else:
-                t_eval = np.array(t_eval_param, dtype=float)
-                # Ensure within t0..tf and sorted
-                if t_eval.size < 2 or t_eval[0] > t_eval[-1]:
-                    t_eval = np.linspace(t0, tf, max(2, t_eval.size))
-        except Exception:
-            t_eval = np.linspace(t0, tf, 2000)
-
-    # Initial conditions (x0 prey, y0 predator)
-    x0_param = params.get("x0", None)
-    y0_param = params.get("y0", None)
-    try:
-        if x0_param is None and y0_param is None:
-            # intelligent guess based on equilibria: use (alpha/beta * 0.8, gamma/delta * 0.8)
-            x0 = 0.8 * (alpha / beta if beta != 0 else 10.0)
-            y0 = 0.8 * (gamma / delta if delta != 0 else 5.0)
-        else:
-            x0 = _robust_to_float(x0_param if x0_param is not None else 10.0, 10.0)
-            y0 = _robust_to_float(y0_param if y0_param is not None else 5.0, 5.0)
-    except Exception:
-        x0, y0 = 10.0, 5.0
-
-    # Grid resolution for vector field (if user provided)
-    try:
-        nx = int(params.get("nx", 20))
-    except Exception:
-        nx = 20
-    try:
-        ny = int(params.get("ny", 20))
-    except Exception:
-        ny = 20
-    if nx <= 0:
-        nx = 20
-    if ny <= 0:
-        ny = 20
-
-    # Solver tolerances
-    try:
-        rtol = float(params.get("rtol", 1e-8))
-    except Exception:
-        rtol = 1e-8
-    try:
-        atol = float(params.get("atol", 1e-10))
-    except Exception:
-        atol = 1e-10
-
-    # Prepare outputs dictionary
-    result = {
-        "success": False,
-        "message": "",
-        "params_used": {
-            "alpha": float(alpha),
-            "beta": float(beta),
-            "delta": float(delta),
-            "gamma": float(gamma),
-            "t0": float(t0),
-            "tf": float(tf),
-            "x0": float(x0),
-            "y0": float(y0),
-        },
+    # Default parameters
+    defaults = {
+        "alpha": 1.0,
+        "beta": 0.1,
+        "delta": 0.075,
+        "gamma": 1.5,
+        "t_span": (0.0, 60.0),
+        "num_t": 2000,
+        "t_eval": None,
+        "x0": 10.0,
+        "y0": 5.0,
+        "method": "RK45",
+        "rtol": 1e-8,
+        "atol": 1e-10,
+        "nx": 20,
+        "ny": 20,
     }
 
-    # --- Define dynamics inline (no extra defs) ---
-    # dx/dt = alpha*x - beta*x*y
-    # dy/dt = delta*x*y - gamma*y
+    # Helper to coerce numeric types robustly
+    def _to_float(v, default=0.0):
+        try:
+            if v is None:
+                return float(default)
+            if isinstance(v, (float, int, np.floating, np.integer)):
+                return float(v)
+            return float(str(v))
+        except Exception:
+            try:
+                return float(default)
+            except Exception:
+                return 0.0
 
-    # Attempt to use scipy.integrate.solve_ivp; fallback to RK4 if not available
-    use_scipy = True
-    sol_t = None
-    sol_y = None
+    def _to_int(v, default=0):
+        try:
+            if v is None:
+                return int(default)
+            if isinstance(v, (int, np.integer)):
+                return int(v)
+            return int(float(v))
+        except Exception:
+            try:
+                return int(default)
+            except Exception:
+                return 0
+
+    # Override defaults with params if provided
+    for k in list(defaults.keys()):
+        if k in params:
+            defaults[k] = params[k]
+
+    # Coerce scalar params
+    alpha = _to_float(defaults["alpha"], 1.0)
+    beta = _to_float(defaults["beta"], 0.1)
+    delta = _to_float(defaults["delta"], 0.075)
+    gamma = _to_float(defaults["gamma"], 1.5)
+    x0 = _to_float(defaults["x0"], 10.0)
+    y0 = _to_float(defaults["y0"], 5.0)
+    method = defaults.get("method", "RK45")
     try:
-        from scipy.integrate import solve_ivp  # type: ignore
+        method = str(method)
     except Exception:
-        use_scipy = False
+        method = "RK45"
+    rtol = _to_float(defaults.get("rtol", 1e-8), 1e-8)
+    atol = _to_float(defaults.get("atol", 1e-10), 1e-10)
+    nx = _to_int(defaults.get("nx", 20), 20)
+    ny = _to_int(defaults.get("ny", 20), 20)
 
+    # Coerce t_span
+    t_span_param = defaults.get("t_span", (0.0, 60.0))
     try:
-        if use_scipy:
-            # use lambda to avoid defining a new function
+        if isinstance(t_span_param, (list, tuple, np.ndarray)) and len(t_span_param) >= 2:
+            t0 = _to_float(t_span_param[0], 0.0)
+            t1 = _to_float(t_span_param[1], 60.0)
+        else:
+            # If single number given, treat as end time
+            t0 = 0.0
+            t1 = _to_float(t_span_param, 60.0)
+        if not math.isfinite(t0):
+            t0 = 0.0
+        if not math.isfinite(t1) or t1 == t0:
+            t1 = t0 + 60.0
+        # Ensure t0 < t1
+        if t1 < t0:
+            t0, t1 = t1, t0
+    except Exception:
+        t0, t1 = 0.0, 60.0
+    t_span = (float(t0), float(t1))
+
+    # Coerce/construct t_eval
+    t_eval_param = defaults.get("t_eval", None)
+    num_t = _to_int(defaults.get("num_t", 2000), 2000)
+    if t_eval_param is None:
+        try:
+            if num_t < 2:
+                num_t = 2
+            t_eval = np.linspace(t_span[0], t_span[1], num_t)
+        except Exception:
+            t_eval = np.linspace(0.0, 60.0, 2000)
+    else:
+        try:
+            # Accept lists, tuples, numpy arrays, or comma-separated string
+            if isinstance(t_eval_param, str):
+                parts = [p.strip() for p in t_eval_param.split(",") if p.strip() != ""]
+                t_eval = np.array([_to_float(p) for p in parts], dtype=float)
+            else:
+                t_eval = np.array(t_eval_param, dtype=float)
+            # Filter/clip to t_span
+            if t_eval.size == 0:
+                t_eval = np.linspace(t_span[0], t_span[1], max(2, num_t))
+            else:
+                t_eval = t_eval[(t_eval >= t_span[0]) & (t_eval <= t_span[1])]
+                if t_eval.size == 0:
+                    t_eval = np.linspace(t_span[0], t_span[1], max(2, num_t))
+        except Exception:
+            t_eval = np.linspace(t_span[0], t_span[1], max(2, num_t))
+
+    # Ensure initial conditions are finite
+    if not math.isfinite(x0):
+        x0 = 10.0
+    if not math.isfinite(y0):
+        y0 = 5.0
+
+    # Prepare model function inline (lambda)
+    # dx/dt = alpha * x - beta * x * y
+    # dy/dt = delta * x * y - gamma * y
+    def _wrapped_solve():
+        try:
             sol = solve_ivp(
                 fun=lambda t, z: [alpha * z[0] - beta * z[0] * z[1], delta * z[0] * z[1] - gamma * z[1]],
-                t_span=(t0, tf),
+                t_span=t_span,
                 y0=[x0, y0],
-                method=params.get("method", "RK45"),
+                method=method,
                 t_eval=t_eval,
                 rtol=rtol,
                 atol=atol,
             )
-            if not getattr(sol, "success", False):
-                # capture message but still try fallback RK4
-                fallback_msg = f"scipy solve_ivp failed: {getattr(sol, 'message', 'unknown')}"
-                # fallback to RK4
-                use_scipy = False
-                sol_t = None
-                sol_y = None
+            return sol
+        except Exception as e:
+            return e
+
+    sol = _wrapped_solve()
+    if isinstance(sol, Exception):
+        return {"success": False, "error": f"Integration raised an exception: {sol}"}
+    if not getattr(sol, "success", False):
+        return {"success": False, "error": f"Integration failed: {getattr(sol, 'message', 'unknown')}"}
+
+    # Extract solutions and convert to pure Python types
+    try:
+        t_out = [float(x) for x in np.array(sol.t, dtype=float).tolist()]
+    except Exception:
+        t_out = list(map(float, np.array(sol.t).astype(float).tolist()))
+    try:
+        y_all = np.array(sol.y)
+        if y_all.shape[0] >= 2:
+            x_arr = np.array(y_all[0], dtype=float)
+            y_arr = np.array(y_all[1], dtype=float)
+        else:
+            # Unexpected shape: attempt to coerce
+            flat = np.ravel(y_all)
+            if flat.size >= 2:
+                x_arr = np.array(flat[0::2], dtype=float)
+                y_arr = np.array(flat[1::2], dtype=float)
+                # Pad to t length if needed
+                if x_arr.size < len(t_out):
+                    x_arr = np.resize(x_arr, len(t_out))
+                if y_arr.size < len(t_out):
+                    y_arr = np.resize(y_arr, len(t_out))
             else:
-                sol_t = np.array(sol.t, dtype=float)
-                sol_y = np.array(sol.y, dtype=float)
-                result["message"] = "Integration successful (scipy.solve_ivp)."
-                result["success"] = True
-        if not use_scipy:
-            # Simple fixed-step RK4 over t_eval
-            te = np.array(t_eval, dtype=float)
-            n_steps = te.size
-            y_out = np.zeros((2, n_steps), dtype=float)
-            y = np.array([float(x0), float(y0)], dtype=float)
-            y_out[:, 0] = y
-            for i in range(1, n_steps):
-                dt = te[i] - te[i - 1]
-                if dt <= 0:
-                    dt = (tf - t0) / max(1, n_steps - 1)
-                # k1
-                k1x = alpha * y[0] - beta * y[0] * y[1]
-                k1y = delta * y[0] * y[1] - gamma * y[1]
-                k1 = np.array([k1x, k1y], dtype=float)
-                # k2
-                yk = y + 0.5 * dt * k1
-                k2x = alpha * yk[0] - beta * yk[0] * yk[1]
-                k2y = delta * yk[0] * yk[1] - gamma * yk[1]
-                k2 = np.array([k2x, k2y], dtype=float)
-                # k3
-                yk = y + 0.5 * dt * k2
-                k3x = alpha * yk[0] - beta * yk[0] * yk[1]
-                k3y = delta * yk[0] * yk[1] - gamma * yk[1]
-                k3 = np.array([k3x, k3y], dtype=float)
-                # k4
-                yk = y + dt * k3
-                k4x = alpha * yk[0] - beta * yk[0] * yk[1]
-                k4y = delta * yk[0] * yk[1] - gamma * yk[1]
-                k4 = np.array([k4x, k4y], dtype=float)
-                y = y + (dt / 6.0) * (k1 + 2.0 * k2 + 2.0 * k3 + k4)
-                # Prevent negative populations (clip)
-                y = np.maximum(y, 0.0)
-                y_out[:, i] = y
-            sol_t = te
-            sol_y = y_out
-            result["message"] = "Integration successful (fallback RK4)."
-            result["success"] = True
-
-    except Exception as e:
-        result["success"] = False
-        result["message"] = f"Integration error: {e}"
-        # Return partial info
-        return result
-
-    # Ensure sol_t and sol_y are numpy arrays
-    try:
-        sol_t = np.array(sol_t, dtype=float)
-        sol_y = np.array(sol_y, dtype=float)
+                x_arr = np.zeros(len(t_out), dtype=float)
+                y_arr = np.zeros(len(t_out), dtype=float)
     except Exception:
-        result["success"] = False
-        result["message"] = "Solver produced invalid numerical arrays."
-        return result
+        # Fallback zeros
+        x_arr = np.zeros(len(t_out), dtype=float)
+        y_arr = np.zeros(len(t_out), dtype=float)
 
-    # Extract x and y
-    try:
-        if sol_y.shape[0] >= 2:
-            x = np.array(sol_y[0, :], dtype=float)
-            y = np.array(sol_y[1, :], dtype=float)
-        elif sol_y.shape[1] >= 2:
-            x = np.array(sol_y[:, 0], dtype=float)
-            y = np.array(sol_y[:, 1], dtype=float)
-        else:
-            raise ValueError("Unexpected solver output shape")
-    except Exception as e:
-        result["success"] = False
-        result["message"] = f"Error extracting solution arrays: {e}"
-        return result
+    x_list = [float(val) if (np.isfinite(val) or isinstance(val, (float, int))) else float("nan") for val in x_arr.tolist()]
+    y_list = [float(val) if (np.isfinite(val) or isinstance(val, (float, int))) else float("nan") for val in y_arr.tolist()]
 
-    # Equilibria
-    try:
-        E0 = (0.0, 0.0)
-        E1 = (gamma / delta if delta != 0 else float("nan"), alpha / beta if beta != 0 else float("nan"))
-    except Exception:
-        E0 = (0.0, 0.0)
-        E1 = (float("nan"), float("nan"))
-
-    # Jacobians
-    try:
-        # J = [[alpha - beta*y, -beta*x],
-        #      [delta*y, delta*x - gamma]]
-        J_e0 = np.array([[alpha - beta * E0[1], -beta * E0[0]], [delta * E0[1], delta * E0[0] - gamma]], dtype=float)
-        J_e1 = np.array([[alpha - beta * E1[1], -beta * E1[0]], [delta * E1[1], delta * E1[0] - gamma]], dtype=float)
-    except Exception:
-        J_e0 = np.array([[float("nan"), float("nan")], [float("nan"), float("nan")]], dtype=float)
-        J_e1 = np.array([[float("nan"), float("nan")], [float("nan"), float("nan")]], dtype=float)
-
-    # Eigenvalues
-    try:
-        eig_e0 = np.linalg.eigvals(J_e0).tolist()
-    except Exception:
-        eig_e0 = [complex(float("nan")), complex(float("nan"))]
-    try:
-        eig_e1 = np.linalg.eigvals(J_e1).tolist()
-    except Exception:
-        eig_e1 = [complex(float("nan")), complex(float("nan"))]
-
-    # Nullclines
-    try:
-        y_nc = alpha / beta if beta != 0 else float("nan")
-        x_nc = gamma / delta if delta != 0 else float("nan")
-    except Exception:
-        y_nc = float("nan")
-        x_nc = float("nan")
-
-    # Vector field grid (small arrays converted to lists)
-    try:
-        xmax = max(float(np.max(x)), float(x_nc) if not math.isnan(x_nc) else 0.0) * 1.2
-        ymax = max(float(np.max(y)), float(y_nc) if not math.isnan(y_nc) else 0.0) * 1.2
-        if not np.isfinite(xmax) or xmax <= 0:
-            xmax = max(10.0, float(np.max(x)) * 1.2 if np.isfinite(np.max(x)) else 10.0)
-        if not np.isfinite(ymax) or ymax <= 0:
-            ymax = max(5.0, float(np.max(y)) * 1.2 if np.isfinite(np.max(y)) else 5.0)
-        Xg = np.linspace(0.0, xmax, nx)
-        Yg = np.linspace(0.0, ymax, ny)
-        X_mesh, Y_mesh = np.meshgrid(Xg, Yg)
-        U = alpha * X_mesh - beta * X_mesh * Y_mesh
-        V = delta * X_mesh * Y_mesh - gamma * Y_mesh
-        N = np.hypot(U, V)
-        N[N == 0] = 1.0
-        Un = (U / N).tolist()
-        Vn = (V / N).tolist()
-        X_list = X_mesh.tolist()
-        Y_list = Y_mesh.tolist()
-    except Exception:
-        X_list = []
-        Y_list = []
-        Un = []
-        Vn = []
-
-    # Peak detection for prey (x) to estimate periods
-    periods = []
-    mean_period = None
-    try:
-        # Prefer scipy.signal.find_peaks if available
-        use_find_peaks = False
+    # Equilibrium points with safe division
+    def _safe_div(a, b):
         try:
-            from scipy.signal import find_peaks  # type: ignore
-            use_find_peaks = True
+            a_f = float(a)
+            b_f = float(b)
+            if b_f == 0:
+                return None
+            if not math.isfinite(a_f) or not math.isfinite(b_f):
+                return None
+            return a_f / b_f
         except Exception:
-            use_find_peaks = False
+            return None
 
-        if use_find_peaks:
-            peaks, _ = find_peaks(x, distance=int(params.get("peak_distance", 10)))
-            if peaks.size > 1:
-                periods = np.diff(sol_t[peaks]).tolist()
-        else:
-            # Simple local maxima detection
-            min_dist = int(params.get("peak_distance", 10))
-            idxs = []
-            last_idx = -min_dist - 1
-            for i in range(1, len(x) - 1):
-                if x[i] > x[i - 1] and x[i] > x[i + 1]:
-                    if i - last_idx >= min_dist:
-                        idxs.append(i)
-                        last_idx = i
-            if len(idxs) > 1:
-                periods = np.diff(sol_t[np.array(idxs, dtype=int)]).tolist()
-        if len(periods) > 0:
-            mean_period = float(np.mean(periods))
-    except Exception:
-        periods = []
-        mean_period = None
+    e0 = (0.0, 0.0)
+    e1_x = _safe_div(gamma, delta)
+    e1_y = _safe_div(alpha, beta)
+    e1 = (e1_x, e1_y)
 
-    # Prepare final result with built-in types (lists, floats)
+    # Jacobian matrices at equilibria
+    # J = [[alpha - beta*y, -beta*x],
+    #      [delta*y,         delta*x - gamma]]
+    def _jacobian(xv, yv):
+        try:
+            xv_f = _to_float(xv, 0.0)
+            yv_f = _to_float(yv, 0.0)
+            a = float(alpha) - float(beta) * yv_f
+            b = -float(beta) * xv_f
+            c = float(delta) * yv_f
+            d = float(delta) * xv_f - float(gamma)
+            return [[float(a), float(b)], [float(c), float(d)]]
+        except Exception:
+            return [[float("nan"), float("nan")], [float("nan"), float("nan")]]
+
+    J_e0 = _jacobian(e0[0], e0[1])
+    J_e1 = None
+    if e1_x is None or e1_y is None:
+        J_e1 = [[None, None], [None, None]]
+    else:
+        J_e1 = _jacobian(e1[0], e1[1])
+
+    # Eigenvalues (use numpy, convert to Python complex/floats)
+    eig_e0 = []
+    eig_e1 = []
     try:
-        result.update(
-            {
-                "t": sol_t.tolist(),
-                "x": x.tolist(),
-                "y": y.tolist(),
-                "equilibria": {"E0": (float(E0[0]), float(E0[1])), "E1": (float(E1[0]) if E1[0] == E1[0] else None, float(E1[1]) if E1[1] == E1[1] else None)},
-                "jacobians": {"J_e0": J_e0.tolist(), "J_e1": J_e1.tolist()},
-                "eigenvalues": {"eig_e0": [complex(v).real if complex(v).imag == 0 else complex(v) for v in eig_e0],
-                                "eig_e1": [complex(v).real if complex(v).imag == 0 else complex(v) for v in eig_e1]},
-                "nullclines": {"y_nc": float(y_nc) if not math.isnan(y_nc) else None, "x_nc": float(x_nc) if not math.isnan(x_nc) else None},
-                "vector_field": {"X": X_list, "Y": Y_list, "U_normalized": Un if 'Un' in locals() else Un, "V_normalized": Vn if 'Vn' in locals() else Vn},
-                "periods": [float(p) for p in periods] if periods is not None else [],
-                "mean_period": float(mean_period) if mean_period is not None else None,
-            }
-        )
-    except Exception as e:
-        # Fallback if conversion fails
-        result["message"] = f"Post-processing error: {e}"
-        result["success"] = False
+        J0_np = np.array(J_e0, dtype=float)
+        vals0 = np.linalg.eigvals(J0_np)
+        eig_e0 = [complex(v) for v in vals0.tolist()]
+    except Exception:
+        eig_e0 = []
+    try:
+        if e1_x is None or e1_y is None:
+            eig_e1 = []
+        else:
+            J1_np = np.array(J_e1, dtype=float)
+            vals1 = np.linalg.eigvals(J1_np)
+            eig_e1 = [complex(v) for v in vals1.tolist()]
+    except Exception:
+        eig_e1 = []
 
-    return result
+    # Nullclines (safe)
+    y_nc = _safe_div(alpha, beta)
+    x_nc = _safe_div(gamma, delta)
+
+    # Estimate oscillation periods from peaks of prey using scipy.signal.find_peaks if available
+    periods = None
+    peaks_idx = None
+    try:
+        from scipy.signal import find_peaks
+        # convert x_arr to 1D numpy
+        x_for_peaks = np.array(x_arr, dtype=float)
+        if x_for_peaks.size > 3:
+            # minimum distance in samples: try to enforce at least 1% of t samples
+            min_dist = max(1, int(0.01 * max(1, len(t_out))))
+            peaks_idx, _ = find_peaks(x_for_peaks, distance=min_dist)
+            if peaks_idx is not None and len(peaks_idx) > 1:
+                peak_times = np.array(t_out, dtype=float)[peaks_idx]
+                periods_arr = np.diff(peak_times)
+                # Filter non-finite values
+                periods_arr = periods_arr[np.isfinite(periods_arr)]
+                periods = [float(p) for p in periods_arr.tolist()] if periods_arr.size > 0 else []
+            else:
+                periods = []
+        else:
+            periods = []
+    except Exception:
+        periods = None
+        peaks_idx = None
+
+    # Assemble params_used (only simple builtins)
+    params_used = {
+        "alpha": float(alpha),
+        "beta": float(beta),
+        "delta": float(delta),
+        "gamma": float(gamma),
+        "t_span": (float(t_span[0]), float(t_span[1])),
+        "method": str(method),
+        "rtol": float(rtol),
+        "atol": float(atol),
+        "x0": float(x0),
+        "y0": float(y0),
+        "nx": int(nx),
+        "ny": int(ny),
+        "t_eval_length": int(len(t_eval)) if hasattr(t_eval, "__len__") else None,
+    }
+
+    # Convert Jacobians to builtins with None for NaN
+    def _normalize_matrix(mat):
+        out = []
+        for row in mat:
+            out_row = []
+            for val in row:
+                try:
+                    if val is None:
+                        out_row.append(None)
+                    else:
+                        v = float(val)
+                        if not math.isfinite(v):
+                            out_row.append(None)
+                        else:
+                            out_row.append(v)
+                except Exception:
+                    out_row.append(None)
+            out.append(out_row)
+        return out
+
+    J_e0_out = _normalize_matrix(J_e0)
+    J_e1_out = _normalize_matrix(J_e1) if J_e1 is not None else [[None, None], [None, None]]
+
+    # Ensure outputs are basic python types
+    results = {
+        "success": True,
+        "t": [float(v) for v in t_out],
+        "x": [float(v) if (v is not None and (isinstance(v, (int, float)) or (isinstance(v, complex) and v.imag == 0))) else (float(v) if isinstance(v, (int, float)) else float("nan")) for v in x_list],
+        "y": [float(v) if (v is not None and (isinstance(v, (int, float)) or (isinstance(v, complex) and v.imag == 0))) else (float(v) if isinstance(v, (int, float)) else float("nan")) for v in y_list],
+        "equilibria": {"E0": (float(e0[0]), float(e0[1])), "E1": (None if e1[0] is None else float(e1[0]), None if e1[1] is None else float(e1[1]))},
+        "jacobian": {"J_e0": J_e0_out, "J_e1": J_e1_out},
+        "eigenvalues": {"eig_e0": eig_e0, "eig_e1": eig_e1},
+        "nullclines": {"y_nc": (None if y_nc is None else float(y_nc)), "x_nc": (None if x_nc is None else float(x_nc))},
+        "periods": (None if periods is None else [float(p) for p in periods]),
+        "peaks_indices": (None if peaks_idx is None else [int(i) for i in peaks_idx.tolist()]),
+        "params_used": params_used,
+    }
+
+    return results

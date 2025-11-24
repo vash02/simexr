@@ -43,3 +43,412 @@
 2025-08-31 16:59:50,089 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-08-31T20:59:50Z
 2025-08-31 16:59:50,089 | DEBUG | [RUN] params={'alpha': '10', 'beta': '', 'delta': '', 'gamma': '', 't_span_param': '', 't_eval_param': '', 'x0_param': '', 'y0_param': '', 'use_scipy': 0.0, 'sol_t': '', 'sol_y': '', 'periods': '', 'mean_period': '', 'tf': '', 'n_points': 2000.0, 't_eval': '', 'nx': 20.0, 'ny': 20.0, 'rtol': 1e-08, 'atol': 1e-10, 'E0': '', 'E1': '', 'J_e0': '', 'J_e1': '', 'eig_e0': '["<ast.Call object at 0x1204c3ed0>", "<ast.Call object at 0x1204c1250>"]', 'eig_e1': '["<ast.Call object at 0x1204c3e10>", "<ast.Call object at 0x1204c10d0>"]', 'y_nc': '', 'x_nc': '', 'xmax': '', 'ymax': '', 'Xg': '', 'Yg': '', 'U': '', 'V': '', 'N': '', 'Un': '[]', 'Vn': '[]', 'X_list': '[]', 'Y_list': '[]', 'use_find_peaks': 0.0, 't0': 0.0, 'x0': '', 'y0': '', 'sol': '', 'te': '', 'n_steps': '', 'y_out': '', 'min_dist': '', 'idxs': '[]', 'last_idx': '', 'val': '', 'fallback_msg': '', 'dt': '', 'k1x': '', 'k1y': '', 'k1': '', 'yk': '', 'k2x': '', 'k2y': '', 'k2': '', 'k3x': '', 'k3y': '', 'k3': '', 'k4x': '', 'k4y': '', 'k4': '', 't_span': '', 'method': 'RK45', 'peak_distance': ''}
 2025-08-31 16:59:50,433 | INFO | [RUN] ok | duration=0.335s | keys=['success', 'message', 'params_used', 't', 'x', 'y', 'equilibria', 'jacobians']
+2025-09-04 15:46:50,814 | DEBUG | run logger initialized
+2025-09-04 15:46:50,815 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-09-04T19:46:50Z
+2025-09-04 15:46:50,815 | DEBUG | [RUN] params={}
+2025-09-04 15:46:50,869 | INFO | [RUN] ok | duration=0.048s | keys=['success', 'message', 't', 'x', 'y', 'equilibria', 'jacobians', 'eigenvalues']
+2025-09-14 20:28:31,458 | DEBUG | run logger initialized
+2025-09-14 20:28:31,458 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-09-15T00:28:31Z
+2025-09-14 20:28:31,458 | DEBUG | [RUN] params={}
+2025-09-14 20:28:31,492 | INFO | [RUN] ok | duration=0.024s | keys=['success', 'message', 'used_params', 't', 'x', 'y', 'equilibria', 'jacobians']
+2025-09-16 02:51:15,578 | DEBUG | run logger initialized
+2025-09-16 02:51:15,578 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-09-16T06:51:15Z
+2025-09-16 02:51:15,578 | DEBUG | [RUN] params={}
+2025-09-16 02:51:15,613 | INFO | [RUN] ok | duration=0.026s | keys=['success', 'message', 't', 'x', 'y', 'equilibria', 'jacobians', 'eigenvalues']
+2025-09-16 14:37:50,500 | DEBUG | run logger initialized
+2025-09-16 14:37:50,500 | INFO | [RUN] start simulate | script=mass-spring-damper.py | run_id=2025-09-16T18:37:50Z
+2025-09-16 14:37:50,500 | DEBUG | [RUN] params={'m': 1, 'c': 0.3, 'k': 4, 't_span': '(0.0, 100.0)', 'dt': 0.01, 'y0': '(0.0, 0.0)', 'force': 'None', 'rtol': 1e-08, 'atol': 1e-10, 'method': 'RK45', 'x0': 0, 'v0': 0, 't': '(0.0, 100.0)', 't0': 0, 'tf': 10}
+2025-09-16 14:37:50,504 | ERROR | [RUN] fail | duration=0.001s | TypeError: t_span must be tuple/list/array or a single numeric value
+2025-09-16 14:37:50,504 | ERROR | [RUN] hint: check integer-only sizes (e.g., N, array shapes) and dtype coercion.
+2025-09-16 14:38:42,220 | INFO | [RUN] start simulate | script=mass-spring-damper.py | run_id=2025-09-16T18:38:42Z
+2025-09-16 14:38:42,220 | DEBUG | [RUN] params={'m': 1, 'c': 0.3, 'k': 4, 't_span': '(0.0, 10.0)', 'dt': 0.01, 'y0': '(0.0, 0.0)', 'force': 'None', 'rtol': 1e-08, 'atol': 1e-10, 'method': 'RK45', 'x0': 0, 'v0': 0, 't': '(0.0, 100.0)', 't0': 0, 'tf': 10}
+2025-09-16 14:38:42,222 | ERROR | [RUN] fail | duration=0.001s | TypeError: t_span must be tuple/list/array or a single numeric value
+2025-09-16 14:38:42,222 | ERROR | [RUN] hint: check integer-only sizes (e.g., N, array shapes) and dtype coercion.
+2025-09-16 14:39:09,913 | INFO | [RUN] start simulate | script=mass-spring-damper.py | run_id=2025-09-16T18:39:09Z
+2025-09-16 14:39:09,913 | DEBUG | [RUN] params={'m': 1, 'c': 0.3, 'k': 4, 't_span': '10.0', 'dt': 0.01, 'y0': '(0.0, 0.0)', 'force': 'None', 'rtol': 1e-08, 'atol': 1e-10, 'method': 'RK45', 'x0': 0, 'v0': 0, 't': '(0.0, 100.0)', 't0': 0, 'tf': 10}
+2025-09-16 14:39:09,915 | ERROR | [RUN] fail | duration=0.001s | TypeError: t_span must be tuple/list/array or a single numeric value
+2025-09-16 14:39:09,915 | ERROR | [RUN] hint: check integer-only sizes (e.g., N, array shapes) and dtype coercion.
+2025-09-16 14:52:06,994 | INFO | [RUN] start simulate | script=vanderpol.py | run_id=2025-09-16T18:52:06Z
+2025-09-16 14:52:06,994 | DEBUG | [RUN] params={}
+2025-09-16 14:52:07,049 | INFO | [RUN] ok | duration=0.017s | keys=['params_used', 'solver', 't', 'trajectory', 'start_point', 'end_point', 'vector_field', 'nullcline']
+2025-09-16 21:34:21,719 | DEBUG | run logger initialized
+2025-09-16 21:34:21,719 | INFO | [RUN] start simulate | script=double-pendulum.py | run_id=2025-09-17T01:34:21Z
+2025-09-16 21:34:21,719 | DEBUG | [RUN] params={}
+2025-09-16 21:34:21,796 | INFO | [RUN] ok | duration=0.043s | keys=['success', 'params_used', 'time', 'theta1', 'theta2', 'omega1', 'omega2', 'x1']
+2025-09-17 01:36:03,063 | INFO | [RUN] start simulate | script=duffing.py | run_id=2025-09-17T05:36:03Z
+2025-09-17 01:36:03,064 | DEBUG | [RUN] params={}
+2025-09-17 01:36:04,861 | INFO | [RUN] ok | duration=0.855s | keys=['success', 'params_used', 'computation_time_seconds', 't', 'position', 'velocity', 'strange_attractor']
+2025-09-22 16:40:29,169 | INFO | [RUN] start simulate | script=roessler_attractor.py | run_id=2025-09-22T20:40:29Z
+2025-09-22 16:40:29,171 | DEBUG | [RUN] params={}
+2025-09-22 16:40:29,558 | INFO | [RUN] ok | duration=0.367s | keys=['outputs', 'files', 'errors']
+2025-09-22 16:40:29,558 | WARNING | [RUN] stderr non-empty (270 chars)
+2025-09-23 14:11:08,924 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-23T18:11:08Z
+2025-09-23 14:11:08,924 | DEBUG | [RUN] params={}
+2025-09-23 14:11:08,926 | INFO | [RUN] ok | duration=0.002s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-23 14:12:16,597 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-23T18:12:16Z
+2025-09-23 14:12:16,597 | DEBUG | [RUN] params={'t': '[0, 1000]'}
+2025-09-23 14:12:16,599 | INFO | [RUN] ok | duration=0.002s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-23 14:20:53,095 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:20:53Z
+2025-09-23 14:20:53,096 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 1, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0, 'xdata': '[]', 'y1data': '[]', 'y2data': '[]', 'y3data': '[]', 't': 0}
+2025-09-23 14:20:53,104 | INFO | [RUN] ok | duration=0.002s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:33:05,636 | DEBUG | run logger initialized
+2025-09-23 14:33:05,637 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:33:05Z
+2025-09-23 14:33:05,637 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 1, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:33:05,649 | INFO | [RUN] ok | duration=0.002s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:33:05,653 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:33:05Z
+2025-09-23 14:33:05,653 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 2, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:33:05,661 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:33:05,664 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:33:05Z
+2025-09-23 14:33:05,664 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 3, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:33:05,673 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:40:18,801 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:40:18Z
+2025-09-23 14:40:18,804 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 1, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:40:18,818 | INFO | [RUN] ok | duration=0.003s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:40:18,823 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:40:18Z
+2025-09-23 14:40:18,823 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 2, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:40:18,831 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:40:18,833 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:40:18Z
+2025-09-23 14:40:18,833 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 3, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:40:18,841 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:40:58,179 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:40:58Z
+2025-09-23 14:40:58,180 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 1, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:40:58,195 | INFO | [RUN] ok | duration=0.002s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:40:58,199 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:40:58Z
+2025-09-23 14:40:58,199 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 2, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:40:58,209 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:40:58,212 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:40:58Z
+2025-09-23 14:40:58,212 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 3, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:40:58,220 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:41:34,172 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:41:34Z
+2025-09-23 14:41:34,173 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 1, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:41:34,189 | INFO | [RUN] ok | duration=0.003s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:41:34,193 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:41:34Z
+2025-09-23 14:41:34,193 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 2, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:41:34,202 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:41:34,204 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:41:34Z
+2025-09-23 14:41:34,204 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 3, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:41:34,211 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:42:51,779 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:42:51Z
+2025-09-23 14:42:51,780 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 1, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:42:51,795 | INFO | [RUN] ok | duration=0.003s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:42:51,799 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:42:51Z
+2025-09-23 14:42:51,799 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 2, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:42:51,808 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-23 14:42:51,811 | INFO | [RUN] start simulate | script=SHM-1.py | run_id=2025-09-23T18:42:51Z
+2025-09-23 14:42:51,811 | DEBUG | [RUN] params={'step': 0.05, 'numstep': 1000, 'amp': 3, 'freq1': 1, 'freq2': 2, 'decay': 0.25, 'start_time': 0}
+2025-09-23 14:42:51,818 | INFO | [RUN] ok | duration=0.001s | keys=['xdata', 'y1data', 'y2data', 'y3data', 'params_used', 'summary']
+2025-09-24 01:17:43,025 | INFO | [RUN] start simulate | script=dipole.py | run_id=2025-09-24T05:17:43Z
+2025-09-24 01:17:43,025 | DEBUG | [RUN] params={'pi': 'numpy.pi', 'c': 299792458, 'mu0': '4.0 * pi * 1e-7', 'eps0': '1.0 / (mu0 * c ** 2)', 'f': '[1e9]', 't': 0, 'epsr': 1, 'p': 'computed if None: _as_array([0.0, 0.0, float(norm_p)]) where norm_p = sqrt(12.0 * pi * c * Pow / (mu0 * (2.0 * pi * freq0) ** 4))', 'Pow': 1, 'R': '[0.0, 0.0, 0.0]', 'r': '[1.0, 0.0, 0.0]', 'phi': 0, 'mode': 'all', 'model_name': 'hertz_dipole'}
+2025-09-24 01:17:43,026 | INFO | [RUN] ok | duration=0.000s | keys=['success', 'errors', 'E_full', 'B_full', 'E_ff', 'B_ff', 'E_nf', 'B_nf']
+2025-09-24 02:47:17,273 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T06:47:17Z
+2025-09-24 02:47:17,273 | DEBUG | [RUN] params={}
+2025-09-24 02:47:17,331 | INFO | [RUN] ok | duration=0.011s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,101 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,103 | DEBUG | [RUN] params={'a': 0.5, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,184 | INFO | [RUN] ok | duration=0.024s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,196 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,196 | DEBUG | [RUN] params={'a': 0.625, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,248 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,259 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,259 | DEBUG | [RUN] params={'a': 0.75, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,311 | INFO | [RUN] ok | duration=0.009s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,322 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,322 | DEBUG | [RUN] params={'a': 0.875, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,375 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,386 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,386 | DEBUG | [RUN] params={'a': 1.0, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,439 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,449 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,450 | DEBUG | [RUN] params={'a': 1.125, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,506 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,520 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,520 | DEBUG | [RUN] params={'a': 1.25, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,578 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,593 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,593 | DEBUG | [RUN] params={'a': 1.375, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,650 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,663 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,663 | DEBUG | [RUN] params={'a': 1.5, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:13,720 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:13,952 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:13Z
+2025-09-24 03:09:13,952 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.0, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,008 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,021 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,021 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.175, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,077 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,092 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,092 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.35, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,149 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,162 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,162 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.525, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,217 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,230 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,230 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,284 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,295 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,295 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.875, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,348 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,359 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,359 | DEBUG | [RUN] params={'a': 0.95, 'b': 1.05, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,412 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,424 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,424 | DEBUG | [RUN] params={'a': 0.95, 'b': 1.225, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,478 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,489 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,489 | DEBUG | [RUN] params={'a': 0.95, 'b': 1.4, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,542 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,762 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,762 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.0, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,818 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,833 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,833 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.15, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,889 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,905 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,905 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.3, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:14,962 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:14,976 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:14Z
+2025-09-24 03:09:14,976 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.45, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,029 | INFO | [RUN] ok | duration=0.009s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,041 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,041 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,094 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,105 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,105 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.75, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,159 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,170 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,170 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.9, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,222 | INFO | [RUN] ok | duration=0.009s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,234 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,234 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 1.05, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,289 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,300 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,300 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 1.2, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,354 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,581 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,581 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 0.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,636 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,648 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,648 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 1.1875, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,705 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,716 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,716 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 1.875, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,772 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,783 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,783 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 2.5625, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,838 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,850 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,850 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.25, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,904 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,915 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,915 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.9375, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:15,970 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:15,981 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:15Z
+2025-09-24 03:09:15,981 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 4.625, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,034 | INFO | [RUN] ok | duration=0.009s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,045 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,045 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 5.3125, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,099 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,110 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,110 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 6.0, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,163 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,370 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,370 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.0, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,427 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,441 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,441 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.0625, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,497 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,510 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,510 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.125, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,564 | INFO | [RUN] ok | duration=0.009s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,575 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,575 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.1875, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,629 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,640 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,641 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,696 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,709 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,709 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.3125, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,764 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,775 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,775 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.375, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,829 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,840 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,840 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.4375, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,895 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:16,906 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:16Z
+2025-09-24 03:09:16,906 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.5, 'f': 0.1, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:16,960 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,173 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,173 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.0, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,226 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,237 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,237 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.0625, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,291 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,302 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,302 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.125, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,356 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,367 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,367 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.1875, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,420 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,433 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,433 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.25, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,486 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,497 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,497 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.3125, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,551 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,562 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,562 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.375, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,616 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,627 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,627 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.4375, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,681 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 03:09:17,692 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T07:09:17Z
+2025-09-24 03:09:17,692 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 03:09:17,746 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,045 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,046 | DEBUG | [RUN] params={'a': 0.5, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,121 | INFO | [RUN] ok | duration=0.019s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,132 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,132 | DEBUG | [RUN] params={'a': 0.625, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,186 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,196 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,196 | DEBUG | [RUN] params={'a': 0.75, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,249 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,260 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,260 | DEBUG | [RUN] params={'a': 0.875, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,313 | INFO | [RUN] ok | duration=0.009s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,324 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,324 | DEBUG | [RUN] params={'a': 1.0, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,380 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,394 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,394 | DEBUG | [RUN] params={'a': 1.125, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,452 | INFO | [RUN] ok | duration=0.011s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,466 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,466 | DEBUG | [RUN] params={'a': 1.25, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,523 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,539 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,539 | DEBUG | [RUN] params={'a': 1.375, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,600 | INFO | [RUN] ok | duration=0.011s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,615 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,615 | DEBUG | [RUN] params={'a': 1.5, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,672 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,687 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,687 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.0, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,742 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,755 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,755 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.175, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,810 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,823 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,823 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.35, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,879 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,893 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,893 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.525, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:01,949 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:01,962 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:01Z
+2025-09-24 13:20:01,963 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,017 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,028 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,028 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.875, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,085 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,098 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,098 | DEBUG | [RUN] params={'a': 0.95, 'b': 1.05, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,152 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,163 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,163 | DEBUG | [RUN] params={'a': 0.95, 'b': 1.225, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,217 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,228 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,228 | DEBUG | [RUN] params={'a': 0.95, 'b': 1.4, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,281 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,291 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,291 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.0, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,348 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,363 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,363 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.15, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,419 | INFO | [RUN] ok | duration=0.011s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,432 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,432 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.3, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,488 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,502 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,502 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.45, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,571 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,588 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,588 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.6, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,642 | INFO | [RUN] ok | duration=0.010s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-24 13:20:02,653 | INFO | [RUN] start simulate | script=aizawa-attractor.py | run_id=2025-09-24T17:20:02Z
+2025-09-24 13:20:02,653 | DEBUG | [RUN] params={'a': 0.95, 'b': 0.7, 'c': 0.75, 'd': 3.5, 'e': 0.25, 'f': 0.5, 'dt': 0.01, 'steps': 10000, 'x0': 0.1, 'y0': 0.0, 'z0': 0.0, 't0': 0.0}
+2025-09-24 13:20:02,705 | INFO | [RUN] ok | duration=0.009s | keys=['x', 'y', 'z', 't', 'params', 'error']
+2025-09-26 13:30:40,802 | DEBUG | run logger initialized
+2025-09-26 13:30:40,802 | INFO | [RUN] start simulate | script=kapitza-pendulum.py | run_id=2025-09-26T17:30:40Z
+2025-09-26 13:30:40,802 | DEBUG | [RUN] params={'dt': '0.01', 'end_time': '100'}
+2025-09-26 13:30:40,837 | INFO | [RUN] ok | duration=0.031s | keys=['success', 'message', 'params_used', 't', 'theta', 'thetadot', 'x', 'y']
+2025-09-26 14:16:56,991 | INFO | [RUN] start simulate | script=mass-spring-damper.py | run_id=2025-09-26T18:16:56Z
+2025-09-26 14:16:56,992 | DEBUG | [RUN] params={}
+2025-09-26 14:16:57,047 | INFO | [RUN] ok | duration=0.006s | keys=['success', 'message', 't', 'x', 'v', 'a', 'm', 'c']
+2025-09-26 16:48:51,581 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,583 | DEBUG | [RUN] params={'y0': [-0.1, 0.1]}
+2025-09-26 16:48:51,591 | INFO | [RUN] ok | duration=0.006s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,592 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,592 | DEBUG | [RUN] params={'y0': [-0.05, -0.1]}
+2025-09-26 16:48:51,595 | INFO | [RUN] ok | duration=0.002s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,595 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,595 | DEBUG | [RUN] params={'y0': [0.05, 0.2]}
+2025-09-26 16:48:51,597 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,598 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,598 | DEBUG | [RUN] params={'y0': [0.1, -0.2]}
+2025-09-26 16:48:51,600 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,600 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,600 | DEBUG | [RUN] params={'y0': [0.2, 0.05]}
+2025-09-26 16:48:51,602 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,603 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,603 | DEBUG | [RUN] params={'y0': [-0.2, -0.05]}
+2025-09-26 16:48:51,604 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,605 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,605 | DEBUG | [RUN] params={'y0': [0.15, 0.15]}
+2025-09-26 16:48:51,607 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,607 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,607 | DEBUG | [RUN] params={'y0': [-0.15, -0.15]}
+2025-09-26 16:48:51,608 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,609 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,609 | DEBUG | [RUN] params={'y0': [0.3, 0.25]}
+2025-09-26 16:48:51,610 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:48:51,611 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:48:51Z
+2025-09-26 16:48:51,611 | DEBUG | [RUN] params={'y0': [-0.25, -0.3]}
+2025-09-26 16:48:51,612 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,554 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,555 | DEBUG | [RUN] params={'y0': [0.1, 0.1], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,558 | INFO | [RUN] ok | duration=0.003s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,560 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,560 | DEBUG | [RUN] params={'y0': [0.1, -0.1], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,563 | INFO | [RUN] ok | duration=0.003s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,564 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,564 | DEBUG | [RUN] params={'y0': [0.2, 0.05], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,566 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,566 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,566 | DEBUG | [RUN] params={'y0': [-0.1, 0.1], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,568 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,568 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,568 | DEBUG | [RUN] params={'y0': [-0.2, -0.05], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,569 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,570 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,570 | DEBUG | [RUN] params={'y0': [0.3, 0.2], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,571 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,572 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,572 | DEBUG | [RUN] params={'y0': [0.05, 0.15], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,573 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,573 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,573 | DEBUG | [RUN] params={'y0': [-0.05, -0.15], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,574 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,574 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,574 | DEBUG | [RUN] params={'y0': [0.4, -0.1], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,575 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-09-26 16:52:10,576 | INFO | [RUN] start simulate | script=Simple%20Pendulum%20Code.py | run_id=2025-09-26T20:52:10Z
+2025-09-26 16:52:10,576 | DEBUG | [RUN] params={'y0': [-0.3, 0.25], 't': [0.0, 10.0], 'method': 'odeint'}
+2025-09-26 16:52:10,577 | INFO | [RUN] ok | duration=0.001s | keys=['t', 'theta', 'omega', 'y0', 'g', 'L', 'method', 'success']
+2025-10-18 02:18:09,221 | DEBUG | run logger initialized
+2025-10-18 02:18:09,222 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-10-18T06:18:09Z
+2025-10-18 02:18:09,222 | DEBUG | [RUN] params={'alpha': 10.0, 'beta': 0.1, 'delta': 0.075, 'gamma': 1.5, 't_span': '(0.0, 100.0)', 't_eval': 'null', 'num_points': 2000, 'x0': 10.0, 'y0': 5.0, 'method': 'RK4', 'rtol': 1e-08, 'atol': 1e-10, 't': 'constructed from t_span and num_points', 'model_name': 'lotka_volterra'}
+2025-10-18 02:18:09,233 | INFO | [RUN] ok | duration=0.003s | keys=['success', 'messages', 'params_used', 't', 'x', 'y', 'equilibria', 'jacobian_eigenvalues']
+2025-11-04 15:14:36,588 | DEBUG | run logger initialized
+2025-11-04 15:14:36,588 | INFO | [RUN] start simulate | script=lotka-voltera.py | run_id=2025-11-04T20:14:36Z
+2025-11-04 15:14:36,588 | DEBUG | [RUN] params={}
+2025-11-04 15:14:36,629 | INFO | [RUN] ok | duration=0.033s | keys=['success', 't', 'x', 'y', 'equilibria', 'jacobian', 'eigenvalues', 'nullclines']

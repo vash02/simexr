@@ -16,30 +16,36 @@ sys.path.insert(0, str(project_root))
 
 
 def main():
-    # Set OpenAI API key globally at startup
-    # Check if API key is already set in environment
-    if os.environ.get("OPENAI_API_KEY"):
-        print(f"🔑 OpenAI API key already set in environment: {os.environ['OPENAI_API_KEY'][:10]}...")
-        # Ensure this environment variable is used and not overridden by config
-        api_key = os.environ["OPENAI_API_KEY"]
-    else:
-        try:
-            from utils.config import settings
-            api_key = settings.openai_api_key
-            if api_key:
-                os.environ["OPENAI_API_KEY"] = api_key
-                print(f"🔑 OpenAI API key set from config: {api_key[:10]}...")
-            else:
-                print("⚠️  Warning: No OpenAI API key found in config")
-                api_key = None
-        except Exception as e:
-            print(f"⚠️  Warning: Could not load OpenAI API key from config: {e}")
-            api_key = None
+    # Clear any cached environment variables and set OpenAI API key globally
+    print("🧹 Clearing environment variable cache...")
     
-    # Force set the environment variable to ensure it's used
-    if api_key:
-        os.environ["OPENAI_API_KEY"] = api_key
-        print(f"🔑 Final OpenAI API key set: {api_key[:10]}...")
+    # Clear any existing OpenAI-related environment variables
+    openai_vars_to_clear = [
+        "OPENAI_API_KEY", "OPENAI_API_KEY_OLD", "OPENAI_API_KEY_CACHE",
+        "PYTHONPATH", "PYTHONHOME", "PYTHONUNBUFFERED"
+    ]
+    
+    for var in openai_vars_to_clear:
+        if var in os.environ:
+            old_value = os.environ.pop(var)
+            print(f"🗑️  Cleared {var}: {old_value[:20] if old_value else 'None'}...")
+    
+    # Force reload any cached modules that might have old API keys
+    import importlib
+    modules_to_reload = ['openai', 'utils.config']
+    for module_name in modules_to_reload:
+        if module_name in sys.modules:
+            importlib.reload(sys.modules[module_name])
+            print(f"🔄 Reloaded module: {module_name}")
+    
+    # Now set the OpenAI API key from config using the dedicated module
+    try:
+        from utils.openai_config import ensure_openai_api_key
+        api_key = ensure_openai_api_key()
+        print("✅ OpenAI API key configuration completed successfully")
+    except Exception as e:
+        print(f"❌ Error configuring OpenAI API key: {e}")
+        api_key = None
     
     parser = argparse.ArgumentParser(description="Start SimExR API Server")
     parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")

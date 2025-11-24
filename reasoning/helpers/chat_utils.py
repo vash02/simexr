@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
 
-def prune_history(msgs: List[Dict[str, Any]], max_assistant_bundles: int = 2) -> List[Dict[str, Any]]:
+def prune_history(msgs: List[Dict[str, Any]], max_assistant_bundles: int = 4) -> List[Dict[str, Any]]:
     # Keep first system, first user, and last N assistant+tool bundles.
     sys = next((m for m in msgs if m["role"] == "system"), None)
     usr = next((m for m in msgs if m["role"] == "user"), None)

@@ -151,7 +151,7 @@ def store_simulation_results(model_id: str, rows: list, param_keys: list, db_pat
     """Store simulation results."""
     default_db.simulation_repository.store_simulation_results(model_id, rows, param_keys)
 
-def store_report(model_id: str, question: str, answer: str, images: list) -> None:
+def store_report(model_id: str, question: str, answer, images: list) -> None:
     """Store a reasoning report."""
     from .services.reasoning import ReasoningService
     service = ReasoningService()

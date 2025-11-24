@@ -13,7 +13,7 @@ from reasoning.messages.openai_client import OpenAIChatClient
 from reasoning.model.reasoning_result import ReasoningResult
 from reasoning.tools.final_answer import FinalAnswerTool
 from reasoning.tools.python_exec import PythonExecTool
-from reasoning.tools.simulate_exec import SimulateTools
+from reasoning.tools.simulate_exec import SimulateTools, RunSimulationTool, RunBatchTool
 from reasoning.utils.load_results import load_results
 from reasoning.helpers.prompts import _default_system_prompt, _append_tool_message
 from reasoning.helpers.chat_utils import prune_history
@@ -62,8 +62,15 @@ class ReasoningAgent(BaseAgent):
 
         # Initialize session
         df, schema = self._load_context()
+        sim_code = ""  # no longer embedding code in the prompt
         self._build_tools(df)
-        history = self._initialize_conversation(question, schema)
+        # No preview needed - agent will use python_exec to explore data
+        history = self._initialize_conversation(question, schema, None)
+        # Prime with a lightweight schema summary via python_exec to steer tool usage
+        try:
+            self._prime_with_schema_summary(history)
+        except Exception as e:
+            log.debug("Schema primer failed: %s", e)
         
         # Initialize tracking
         tracking_state = self._initialize_tracking()
@@ -71,25 +78,39 @@ class ReasoningAgent(BaseAgent):
         # Main reasoning loop
         return self._reasoning_loop(history, tracking_state, stop_flag, question)
     
+    # ---------- logging helpers ----------
+    def _truncate(self, text: Any, limit: int = 300) -> str:
+        try:
+            s = str(text)
+        except Exception:
+            return "<unprintable>"
+        return s if len(s) <= limit else s[:limit] + " …"
+
     def _load_context(self) -> tuple:
         """Load data context and schema."""
         df = load_results(db_path=self.db_path, model_id=self.model_id)
         schema = list(df.columns)
         return df, schema
     
+    def _load_sim_code(self) -> str:
+        """Load simulation code for the current model."""
+        from reasoning.helpers.sim_code_loader import load_simulation_code_safe
+        return load_simulation_code_safe(self.model_id, self.db_path)
+    
     def _build_tools(self, df: Any) -> None:
         """Build tools bound to this session."""
+        sim = SimulateTools(db_config=self.db_config, default_model_id=self.model_id)
         self._tools = {
             "python_exec": PythonExecTool(df=df),
-            "run_simulation_for_model": SimulateTools(db_config=self.db_config, default_model_id=self.model_id),
-            "run_batch_for_model": SimulateTools(db_config=self.db_config, default_model_id=self.model_id),
+            "run_simulation_for_model": RunSimulationTool(sim),
+            "run_batch_for_model": RunBatchTool(sim),
             "final_answer": FinalAnswerTool(),
         }
     
-    def _initialize_conversation(self, question: str, schema: List[str]) -> List[Dict[str, Any]]:
+    def _initialize_conversation(self, question: str, schema: List[str], preview: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Initialize conversation history."""
         return [
-            {"role": "system", "content": self.system_prompt_builder(schema)},
+            {"role": "system", "content": self.system_prompt_builder(schema, preview)},
             {"role": "user", "content": question},
         ]
     
@@ -108,29 +129,47 @@ class ReasoningAgent(BaseAgent):
         tools_spec = _openai_tools_spec()
         
         for _ in range(self.max_steps):
+            step_num = tracking_state.get("step_idx", 0)
+            log.info("[step %s] Calling LLM (history=%s messages)", step_num, len(self.history_pruner(history)))
             if stop_flag and stop_flag():
                 return self._create_result(history, tracking_state, "(stopped)")
 
             # Get LLM response
             msg = self.llm.chat(messages=self.history_pruner(history), tools=tools_spec)
+            if "tool_calls" in msg and msg["tool_calls"]:
+                log.info("[step %s] LLM proposed %s tool call(s)", step_num, len(msg["tool_calls"]))
+            else:
+                log.info("[step %s] LLM text reply: %s", step_num, self._truncate(msg.get("content", "")))
             assistant_entry = self._create_assistant_entry(msg)
             history.append(assistant_entry)
 
             # Process tool calls if any
             if assistant_entry.get("tool_calls"):
+                names = [tc.get("function", {}).get("name", "?") for tc in assistant_entry["tool_calls"]]
+                log.info("[step %s] Processing tool calls: %s", step_num, names)
                 final_result = self._process_tool_calls(
                     history, assistant_entry["tool_calls"], tracking_state, question
                 )
                 if final_result:  # final_answer was called
+                    log.info("[step %s] Final answer produced, exiting loop", step_num)
                     return final_result
                 continue
 
             # Nudge if no tool call
+            log.info("[step %s] No tool call; nudging model to use a tool", step_num)
             self._nudge_for_tool_call(history)
 
         # Loop exhausted
         log.error("Agent loop exhausted without an answer")
-        return self._create_result(history, tracking_state, "(no answer)")
+        fallback_msg = (
+            "I couldn't finalize an answer within the step limit. "
+            "Please allow me to use a tool. I can: \n"
+            "- run_simulation_for_model to run new simulations,\n"
+            "- run_batch_for_model for parameter sweeps, or\n"
+            "- python_exec to analyze the dataframe.\n"
+            "Re-ask your question or request a specific tool call."
+        )
+        return self._create_result(history, tracking_state, fallback_msg)
     
     def _create_assistant_entry(self, msg: Dict[str, Any]) -> Dict[str, Any]:
         """Create assistant entry from LLM message."""
@@ -146,24 +185,32 @@ class ReasoningAgent(BaseAgent):
             call_id = tc["id"]
             fname = tc["function"]["name"]
             raw_args = tc["function"]["arguments"] or "{}"
+            log.info("[tool %s] name=%s args=%s", call_id, fname, self._truncate(raw_args))
 
             # Parse arguments
             args = self._parse_tool_args(history, call_id, raw_args)
             if args is None:
+                log.warning("[tool %s] Malformed arguments", call_id)
                 continue
 
             # Handle code tracking for python_exec
             if fname == "python_exec":
                 if not self._track_python_code(history, call_id, args, tracking_state):
+                    log.warning("[tool %s] Skipping python_exec due to missing/empty code", call_id)
                     continue
 
             # Execute tool
             result = self._execute_tool(history, call_id, fname, args)
             if result is None:
+                log.warning("[tool %s] No result returned", call_id)
                 continue
 
             # Track images
             self._track_images(result, tracking_state)
+            if isinstance(result, dict) and not result.get("ok", True):
+                log.info("[tool %s] Completed with error: %s", call_id, self._truncate(result.get("stderr", "")))
+            else:
+                log.info("[tool %s] Completed successfully", call_id)
 
             # Handle final answer specially
             if fname == "final_answer":
@@ -203,13 +250,37 @@ class ReasoningAgent(BaseAgent):
             return None
 
         try:
-            return tool._run(**args)  # type: ignore[arg-type]
+            log.info("[tool %s] Executing %s", call_id, fname)
+            # Try calling with args dict first (for tools like python_exec)
+            try:
+                return tool._run(args)  # type: ignore[arg-type]
+            except TypeError:
+                # If that fails, try with keyword arguments (for tools like final_answer)
+                return tool._run(**args)  # type: ignore[arg-type]
         except TypeError as e:
             result = {"ok": False, "stderr": f"Bad arguments: {e}"}
         except Exception as e:
             result = {"ok": False, "stderr": f"{type(e).__name__}: {e}"}
         
         return result
+
+    def _prime_with_schema_summary(self, history: List[Dict[str, Any]]) -> None:
+        """Run a small python_exec to summarize df structure and first rows."""
+        primer_code = (
+            "import pandas as pd\n"
+            "info = {\n"
+            "  'columns': list(df.columns),\n"
+            "  'n_rows': int(len(df)),\n"
+            "  'preview': df.head(3).to_dict(orient='list')\n"
+            "}\n"
+            "print(info)\n"
+        )
+        args = {"code": primer_code}
+        call_id = "prime_python_exec_0"
+        result = self._execute_tool(history, call_id, "python_exec", args)
+        if result is not None:
+            self._append_tool_message(history, call_id, result)
+            log.info("[primer] Schema summary executed (ok=%s)", getattr(result, "get", lambda *_: False)("ok", True))
     
     def _track_images(self, result: Any, tracking_state: Dict[str, Any]) -> None:
         """Track new images from tool results."""
@@ -225,18 +296,40 @@ class ReasoningAgent(BaseAgent):
                            result: Dict[str, Any], tracking_state: Dict[str, Any], 
                            question: str) -> ReasoningResult:
         """Handle final_answer tool call."""
+        log.info("[final_answer %s] Raw result type=%s, keys=%s", call_id, type(result), list(result.keys()) if isinstance(result, dict) else "N/A")
+        
         fa = result if isinstance(result, dict) else {}
-        answer_text = fa.get("answer", "")
+        
+        # Extract answer text - handle both string and dict cases
+        if isinstance(fa, dict) and "answer" in fa:
+            answer_text = fa["answer"]
+            # If answer_text is still a dict, extract the string from it
+            if isinstance(answer_text, dict):
+                answer_text = answer_text.get("answer", str(answer_text))
+            log.info("[final_answer %s] Extracted answer from dict: type=%s, len=%s", call_id, type(answer_text), len(str(answer_text)))
+        elif isinstance(fa, str):
+            answer_text = fa
+            log.info("[final_answer %s] Using fa as string: len=%s", call_id, len(answer_text))
+        else:
+            answer_text = str(fa)
+            log.info("[final_answer %s] Converted fa to string: len=%s", call_id, len(answer_text))
+            
         merged_images = list({*tracking_state["all_images"], *fa.get("images", [])})
+        log.info("[final_answer %s] len(answer)=%s images=%s", call_id, len(answer_text), len(merged_images))
         
         # Persist report
         try:
+            log.info("[final_answer %s] About to store: answer_text type=%s, value=%s", call_id, type(answer_text), self._truncate(str(answer_text)))
             self.report_store(self.model_id, question, answer_text, merged_images)
         except Exception as e:
             log.warning("store_report failed: %s", e)
 
         # Echo tool message and return
         self._append_tool_message(history, call_id, fa)
+        
+        # Debug: log what we're returning
+        log.info("[final_answer %s] Returning ReasoningResult with answer type=%s, len=%s", call_id, type(answer_text), len(str(answer_text)))
+        
         return ReasoningResult(
             history=history, 
             code_map=tracking_state["code_map"], 
@@ -248,7 +341,12 @@ class ReasoningAgent(BaseAgent):
         """Nudge the model to use a tool call."""
         history.append({
             "role": "user",
-            "content": "Please respond with a tool call (python_exec / run_simulation_for_model / run_batch_for_model / final_answer)."
+            "content": (
+                "Use a tool call now. Available tools: python_exec, run_simulation_for_model, "
+                "run_batch_for_model, final_answer. If you're ready to answer, use final_answer "
+                "with structured format: final_answer(answer='specific parameter values/ranges', "
+                "values=[numerical_values], images=['plots']). Respond with a single tool call."
+            ),
         })
     
     def _create_result(self, history: List[Dict[str, Any]], tracking_state: Dict[str, Any], 

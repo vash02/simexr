@@ -6,9 +6,52 @@ from pathlib import Path
 import streamlit as st
 from streamlit_chat import message
 import time
+import numpy as np
 
 # API Configuration
-API_BASE_URL = "http://127.0.0.1:8001"
+API_BASE_URL = "http://127.0.0.1:8000"
+
+# ─────────────────────────────────────────────────────────────────────
+# Utility Functions
+# ─────────────────────────────────────────────────────────────────────
+
+def make_display_safe(df: pd.DataFrame) -> pd.DataFrame:
+    """Convert complex data types in DataFrame to display-safe strings."""
+    display_df = df.copy()
+    
+    for col in display_df.columns:
+        if display_df[col].dtype == 'object':
+            # Get a sample non-null value to check the type
+            non_null_values = display_df[col].dropna()
+            if not non_null_values.empty:
+                sample_val = non_null_values.iloc[0]
+                
+                # Handle different complex types
+                if isinstance(sample_val, dict):
+                    # Convert dict to JSON string
+                    display_df[col] = display_df[col].apply(
+                        lambda x: json.dumps(x, default=str) if isinstance(x, dict) else str(x)
+                    )
+                elif isinstance(sample_val, (list, tuple)):
+                    # Convert list/tuple to string representation
+                    display_df[col] = display_df[col].apply(
+                        lambda x: str(x) if isinstance(x, (list, tuple)) else str(x)
+                    )
+                elif isinstance(sample_val, np.complexfloating) or (hasattr(sample_val, 'real') and hasattr(sample_val, 'imag')):
+                    # Handle complex numbers
+                    display_df[col] = display_df[col].apply(
+                        lambda x: f"{x.real:.6f}+{x.imag:.6f}j" if hasattr(x, 'real') and hasattr(x, 'imag') else str(x)
+                    )
+                elif isinstance(sample_val, np.ndarray):
+                    # Handle numpy arrays
+                    display_df[col] = display_df[col].apply(
+                        lambda x: f"array(shape={x.shape}, dtype={x.dtype})" if isinstance(x, np.ndarray) else str(x)
+                    )
+                else:
+                    # Convert everything else to string
+                    display_df[col] = display_df[col].astype(str)
+    
+    return display_df
 
 # ─────────────────────────────────────────────────────────────────────
 # API Helper Functions
@@ -151,6 +194,153 @@ def refresh_model_data(model_id: str):
     clear_model_cache(model_id)
     return get_model_info(model_id)
 
+def store_simulation_results(model_id: str, results: Dict[str, Any], result_type: str = "single"):
+    """Store simulation results for a model with metadata."""
+    import time
+    
+    st.session_state.model_simulation_results[model_id] = {
+        "results": results,
+        "timestamp": time.time(),
+        "type": result_type,  # "single" or "batch"
+        "model_id": model_id
+    }
+    st.session_state.last_simulation_model = model_id
+    st.session_state.simulation_results = results  # Keep backward compatibility
+
+def get_cached_simulation_results(model_id: str = None) -> Optional[Dict[str, Any]]:
+    """Get cached simulation results for a model."""
+    if model_id and model_id in st.session_state.model_simulation_results:
+        return st.session_state.model_simulation_results[model_id]
+    elif st.session_state.last_simulation_model:
+        # Return results from the last simulation if no specific model requested
+        return st.session_state.model_simulation_results.get(st.session_state.last_simulation_model)
+    return None
+
+def display_cached_results_banner():
+    """Display a banner if there are cached simulation results."""
+    if st.session_state.last_simulation_model:
+        cached_data = get_cached_simulation_results()
+        if cached_data:
+            model_id = cached_data["model_id"]
+            result_type = cached_data.get("type", "single")
+            timestamp = cached_data.get("timestamp", 0)
+            
+            # Format timestamp
+            import datetime
+            time_str = datetime.datetime.fromtimestamp(timestamp).strftime("%H:%M:%S")
+            
+            st.info(f"💾 **Cached Results Available**: {result_type.title()} simulation from model `{model_id}` (Run at {time_str})")
+            
+            if st.button("📊 View Cached Results"):
+                st.session_state.selected_model_id = model_id
+                # Display results inline
+                with st.expander("📊 Latest Simulation Results", expanded=True):
+                    results = cached_data["results"]
+                    
+                    if result_type == "batch" and "results" in results:
+                        st.success(f"✅ Batch Results: {len(results['results'])} simulations")
+                        
+                        # Convert to DataFrame for better display
+                        try:
+                            df = pd.json_normalize(results["results"], sep=".")
+                            display_df = make_display_safe(df)
+                            st.dataframe(display_df, use_container_width=True)
+                        except Exception as e:
+                            st.json(results)
+                    else:
+                        st.success("✅ Single Simulation Results")
+                        st.json(results)
+
+def cache_view_results(model_id: str, df: pd.DataFrame, metadata: Dict[str, Any]):
+    """Cache the DataFrame and metadata for the View Results page."""
+    st.session_state.view_results_model_id = model_id
+    st.session_state.view_results_dataframe = df
+    st.session_state.view_results_metadata = metadata
+
+def get_cached_view_results() -> tuple:
+    """Get cached View Results DataFrame and metadata."""
+    return (
+        st.session_state.view_results_model_id,
+        st.session_state.view_results_dataframe,
+        st.session_state.view_results_metadata
+    )
+
+def clear_view_results_cache():
+    """Clear the View Results cache."""
+    st.session_state.view_results_model_id = None
+    st.session_state.view_results_dataframe = None
+    st.session_state.view_results_metadata = {}
+
+def display_results_dataframe(df: pd.DataFrame, model_id: str, total_count: int):
+    """Display the results DataFrame with stats and download option."""
+    st.success(f"📊 Found {total_count} results for model: {model_id}")
+    
+    # Display results
+    st.subheader("Simulation Results")
+    
+    # Show basic stats
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("Total Results", len(df))
+    with col2:
+        # Success rate based on absence of stderr
+        if 'stderr' in df.columns:
+            success_count = len(df[df['stderr'].isna() | (df['stderr'] == '')])
+            success_rate = f"{success_count/len(df)*100:.1f}%"
+        else:
+            # If no stderr column, assume all succeeded
+            success_rate = "100.0%"
+        st.metric("Success Rate", success_rate)
+    with col3:
+        # Try to find an execution time column
+        time_cols = [c for c in df.columns if c.lower().endswith("execution_time") or c.lower() == "execution_time"]
+        avg_time = None
+        for tc in time_cols:
+            try:
+                avg_time = pd.to_numeric(df[tc], errors='coerce').dropna().mean()
+                break
+            except Exception:
+                continue
+        st.metric("Avg Execution Time", f"{avg_time:.3f}s" if avg_time is not None else "N/A")
+    
+    # Show results table - handle complex data types
+    try:
+        # Create a display-safe version of the DataFrame
+        display_df = make_display_safe(df)
+        st.dataframe(display_df, use_container_width=True)
+    except Exception as e:
+        st.warning(f"Could not display full DataFrame: {e}")
+        # Show a simplified version
+        st.write("**Available columns:**")
+        st.write(list(df.columns))
+        st.write("**First few rows (simplified):**")
+        for i, row in df.head(3).iterrows():
+            st.write(f"Row {i}:")
+            for col in df.columns:
+                try:
+                    val = row[col]
+                    if isinstance(val, (dict, list, tuple)):
+                        st.write(f"  {col}: {type(val).__name__} (length: {len(val) if hasattr(val, '__len__') else 'N/A'})")
+                    else:
+                        st.write(f"  {col}: {val}")
+                except Exception:
+                    st.write(f"  {col}: <complex object>")
+    
+    # Download option - handle complex data types
+    try:
+        # Create a CSV-safe version of the DataFrame
+        csv_df = make_display_safe(df)
+        csv = csv_df.to_csv(index=False)
+        st.download_button(
+            label="📥 Download Results as CSV",
+            data=csv,
+            file_name=f"{model_id}_results.csv",
+            mime="text/csv"
+        )
+    except Exception as e:
+        st.warning(f"Could not generate CSV download: {e}")
+        st.info("CSV download unavailable due to complex data types in results.")
+
 # ─────────────────────────────────────────────────────────────────────
 # Streamlit Configuration
 # ─────────────────────────────────────────────────────────────────────
@@ -173,6 +363,20 @@ if "simulation_results" not in st.session_state:
     st.session_state.simulation_results = None
 if "current_question" not in st.session_state:
     st.session_state.current_question = ""
+
+# Enhanced result caching per model
+if "model_simulation_results" not in st.session_state:
+    st.session_state.model_simulation_results = {}  # {model_id: {results, timestamp}}
+if "last_simulation_model" not in st.session_state:
+    st.session_state.last_simulation_model = None
+
+# View Results page persistent state
+if "view_results_model_id" not in st.session_state:
+    st.session_state.view_results_model_id = None
+if "view_results_dataframe" not in st.session_state:
+    st.session_state.view_results_dataframe = None
+if "view_results_metadata" not in st.session_state:
+    st.session_state.view_results_metadata = {}
 
 # Cache for model data and results
 if "cached_model_info" not in st.session_state:
@@ -199,7 +403,7 @@ if "current_script" not in st.session_state:
 # Check API health
 if not check_api_health():
     st.error("🚨 API server is not running! Please start the server with:")
-    st.code("python start_api.py --host 127.0.0.1 --port 8001")
+    st.code("python start_api.py --host 127.0.0.1 --port 8000")
     st.stop()
 
 # Sidebar
@@ -219,6 +423,9 @@ page = st.sidebar.radio(
 if page == "🏠 Dashboard":
     st.title("🏠 SimExR Dashboard")
     st.markdown("Welcome to the Simulation Execution & Reasoning Framework!")
+    
+    # Show cached results banner
+    display_cached_results_banner()
     
     # System Status
     col1, col2, col3 = st.columns(3)
@@ -423,12 +630,12 @@ elif page == "⚙️ Run Simulations":
                             # Clear cache for this model to ensure fresh results
                             clear_model_cache(st.session_state.selected_model_id)
                             
+                            # Store results with enhanced caching
+                            store_simulation_results(st.session_state.selected_model_id, result, "single")
+                            
                             # Show results
                             with st.expander("📊 Simulation Results"):
                                 st.json(result)
-                            
-                            # Store results
-                            st.session_state.simulation_results = result
                         else:
                             st.error(f"❌ Simulation failed: {result.get('error')}")
                             
@@ -462,12 +669,12 @@ elif page == "⚙️ Run Simulations":
                             # Clear cache for this model to ensure fresh results
                             clear_model_cache(st.session_state.selected_model_id)
                             
+                            # Store results with enhanced caching
+                            store_simulation_results(st.session_state.selected_model_id, result, "batch")
+                            
                             # Show results summary
                             with st.expander("📊 Batch Results Summary"):
                                 st.json(result)
-                            
-                            # Store results
-                            st.session_state.simulation_results = result
                         else:
                             st.error(f"❌ Batch simulation failed: {result.get('error')}")
                             
@@ -481,10 +688,48 @@ elif page == "⚙️ Run Simulations":
 elif page == "📊 View Results":
     st.title("📊 View Results")
     
+    # Show cached results banner
+    display_cached_results_banner()
+    
+    # Get current cached state
+    cached_model_id, cached_df, cached_metadata = get_cached_view_results()
+    
     # Model Selection
     st.header("Select Model")
     
     search_query = st.text_input("Search models for results", placeholder="Enter model name...")
+    
+    # Show currently cached model info if available
+    if cached_model_id:
+        st.info(f"💾 **Currently Displaying**: Model `{cached_model_id}` ({len(cached_df) if cached_df is not None else 0} results)")
+        
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            if st.button("🔄 Refresh Current Model"):
+                # Refresh the current model
+                results = get_model_results(cached_model_id, limit=100)
+                if results and results.get("results"):
+                    try:
+                        df = pd.json_normalize(results["results"], sep=".")
+                    except Exception:
+                        df = pd.DataFrame(results["results"])
+                    
+                    # Cache the new results
+                    metadata = {
+                        "total_count": results.get('total_count', 0),
+                        "timestamp": time.time()
+                    }
+                    cache_view_results(cached_model_id, df, metadata)
+                    st.success("✅ Results refreshed!")
+                    st.rerun()
+                else:
+                    st.error("❌ No results found for current model")
+        
+        with col2:
+            if st.button("🗑️ Clear Results"):
+                clear_view_results_cache()
+                st.success("✅ Results cleared!")
+                st.rerun()
     
     if search_query:
         models = search_models(search_query, limit=10)
@@ -495,49 +740,47 @@ elif page == "📊 View Results":
             if selected_model:
                 model_id = model_options[selected_model]
                 
-                # Get results
-                results = get_model_results(model_id, limit=100)
-                
-                if results and results.get("results"):
-                    st.success(f"📊 Found {results.get('total_count', 0)} results")
-                    
-                    # Display results
-                    st.subheader("Simulation Results")
-                    
-                    # Convert to DataFrame for better display
-                    df = pd.DataFrame(results["results"])
-                    
-                    # Show basic stats
-                    col1, col2, col3 = st.columns(3)
-                    with col1:
-                        st.metric("Total Results", len(df))
-                    with col2:
-                        st.metric("Success Rate", f"{len(df[df.get('success', False)])/len(df)*100:.1f}%")
-                    with col3:
-                        if 'execution_time' in df.columns:
-                            avg_time = df['execution_time'].mean()
-                            st.metric("Avg Execution Time", f"{avg_time:.3f}s")
-                    
-                    # Show results table
-                    st.dataframe(df, use_container_width=True)
-                    
-                    # Download option
-                    csv = df.to_csv(index=False)
-                    st.download_button(
-                        label="📥 Download Results as CSV",
-                        data=csv,
-                        file_name=f"{model_id}_results.csv",
-                        mime="text/csv"
-                    )
-                    
-                    # Store for analysis
-                    st.session_state.simulation_results = results
-                    st.session_state.selected_model_id = model_id
-                    
+                # Check if this is a different model than currently cached
+                if model_id != cached_model_id:
+                    if st.button(f"📊 Load Results for {model_id}", type="primary"):
+                        with st.spinner("Loading results..."):
+                            # Get results
+                            results = get_model_results(model_id, limit=100)
+                            
+                            if results and results.get("results"):
+                                # Convert to DataFrame and flatten all nested structures
+                                try:
+                                    df = pd.json_normalize(results["results"], sep=".")
+                                except Exception:
+                                    df = pd.DataFrame(results["results"])
+                                
+                                # Cache the results
+                                metadata = {
+                                    "total_count": results.get('total_count', 0),
+                                    "timestamp": time.time()
+                                }
+                                cache_view_results(model_id, df, metadata)
+                                
+                                # Store for other pages
+                                st.session_state.simulation_results = results
+                                st.session_state.selected_model_id = model_id
+                                
+                                st.success(f"✅ Loaded {metadata['total_count']} results!")
+                                st.rerun()
+                            else:
+                                st.warning("No results found for this model.")
                 else:
-                    st.warning("No results found for this model.")
+                    st.info(f"ℹ️ Model `{model_id}` is already loaded. Results are displayed below.")
         else:
             st.warning("No models found matching your search.")
+    
+    # Display cached results if available
+    if cached_df is not None and cached_model_id:
+        st.markdown("---")
+        display_results_dataframe(cached_df, cached_model_id, cached_metadata.get("total_count", len(cached_df)))
+    elif not search_query:
+        st.info("🔍 **Search for a model above to load its results**")
+        st.markdown("Results will remain visible until you select a different model.")
 
 # ─────────────────────────────────────────────────────────────────────
 # AI Analysis Page
@@ -545,6 +788,9 @@ elif page == "📊 View Results":
 
 elif page == "🤖 AI Analysis":
     st.title("🤖 AI Analysis")
+    
+    # Show cached results banner
+    display_cached_results_banner()
     
     # Model Selection
     if not st.session_state.selected_model_id:
@@ -597,23 +843,33 @@ elif page == "🤖 AI Analysis":
         
         # Show welcome message if no chat history
         if not st.session_state[model_chat_key]:
-            st.markdown("""
-            <div style="background-color: #f0f2f6; padding: 20px; border-radius: 10px; border-left: 4px solid #1f77b4;">
-            <h4>🤖 Welcome to AI Analysis!</h4>
-            <p>I'm your AI assistant for analyzing simulation results. I can help you understand your model's behavior, interpret results, and answer questions about your simulations.</p>
-            
-            <h5>💡 What you can ask me:</h5>
-            <ul>
-            <li>📊 Analyze simulation results and trends</li>
-            <li>🔍 Explain parameter effects on system behavior</li>
-            <li>📈 Identify patterns and anomalies in the data</li>
-            <li>🧮 Help with mathematical interpretations</li>
-            <li>💡 Suggest improvements or optimizations</li>
-            </ul>
-            
-            <p><strong>Start by typing your question below! 👇</strong></p>
-            </div>
-            """, unsafe_allow_html=True)
+            # Use Streamlit's built-in styling for better theme compatibility
+            with st.container():
+                st.markdown("### 🤖 Welcome to AI Analysis!")
+                
+                st.info("""
+                **I'm your AI assistant for analyzing simulation results!** 
+                
+                I can help you understand your model's behavior, interpret results, and answer questions about your simulations.
+                """)
+                
+                st.markdown("#### 💡 What you can ask me:")
+                
+                st.markdown("**🎯 System Stability & Parameter Analysis:**")
+                st.markdown("- 🔍 Can you identify specific values or ranges of parameters corresponding to stable/unstable behavior of the system?")
+                
+                st.markdown("")  # Spacer
+                st.markdown("**📊 Data Sufficiency & System Characteristics:**")
+                st.markdown("- 📈 Can you explain if the data is sufficient to explain specific system characteristics?")
+                st.markdown("- 🎯 Find a parameter value where the system will be stable (stays at single value) for a period of time")
+                
+                st.markdown("")  # Spacer
+                st.markdown("**🔄 Periodic Behavior & Orbit Analysis:**")
+                st.markdown("- 🌀 Find me a parameter range for which the system has a periodic orbit")
+                st.markdown("- ⏱️ Analyze periodicity within specified time ranges")
+                st.markdown("- 🔬 Identify specific dynamical system behaviors (equilibrium, limit cycles, chaos)")
+                
+                st.success("**Ready to help! Start by typing your question below! 👇**")
         
         # Display existing chat messages
         for i, chat in enumerate(st.session_state[model_chat_key]):
@@ -626,6 +882,17 @@ elif page == "🤖 AI Analysis":
                     st.progress(0)  # Show progress bar
             else:
                 message(chat["content"], is_user=False, key=f"assistant_{i}")
+                
+                # Display images if they exist
+                if chat.get("images"):
+                    for img_path in chat["images"]:
+                        try:
+                            if Path(img_path).exists():
+                                st.image(img_path, caption="Generated Plot", use_column_width=True)
+                            else:
+                                st.warning(f"Image not found: {img_path}")
+                        except Exception as e:
+                            st.error(f"Error displaying image {img_path}: {e}")
         
         # Chat input area
         st.markdown("---")
@@ -687,11 +954,13 @@ elif page == "🤖 AI Analysis":
                 
                 if "error" not in result:
                     ai_response = result.get("answer", "I apologize, but I couldn't generate a response for your question.")
+                    images = result.get("images", [])
                     
                     # Add AI response to chat
                     st.session_state[model_chat_key].append({
                         "role": "assistant",
                         "content": ai_response,
+                        "images": images,
                         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
                     })
                     
@@ -717,18 +986,33 @@ elif page == "🤖 AI Analysis":
                 st.rerun()
         
         with col2:
-            if st.button("📥 Export Chat"):
-                if st.session_state[model_chat_key]:
-                    chat_text = "\n\n".join([
-                        f"**{chat['role'].title()}** ({chat['timestamp']}):\n{chat['content']}"
-                        for chat in st.session_state[model_chat_key]
-                    ])
-                    st.download_button(
-                        label="📄 Download Chat",
-                        data=chat_text,
-                        file_name=f"ai_chat_{st.session_state.selected_model_id}_{time.strftime('%Y%m%d_%H%M%S')}.txt",
-                        mime="text/plain"
-                    )
+            if st.session_state[model_chat_key]:
+                # Create export data
+                chat_text = "\n\n".join([
+                    f"**{chat['role'].title()}** ({chat['timestamp']}):\n{chat['content']}"
+                    for chat in st.session_state[model_chat_key]
+                ])
+                
+                # Add metadata header
+                export_content = f"""SimExR AI Chat Export
+                Model: {st.session_state.selected_model_id}
+                Export Date: {time.strftime('%Y-%m-%d %H:%M:%S')}
+                Total Messages: {len(st.session_state[model_chat_key])}
+
+                {'='*50}
+
+                {chat_text}
+                """
+                
+                st.download_button(
+                    label="📥 Export Chat",
+                    data=export_content,
+                    file_name=f"simexr_chat_{st.session_state.selected_model_id}_{time.strftime('%Y%m%d_%H%M%S')}.txt",
+                    mime="text/plain",
+                    help="Download the complete chat history as a text file"
+                )
+            else:
+                st.button("📥 Export Chat", disabled=True, help="No chat history to export")
         
         with col3:
             if st.button("🔄 New Conversation"):
@@ -949,11 +1233,11 @@ elif page == "📝 Parameter Annotations":
                                 if "error" not in result:
                                     st.success("✅ Simulation completed successfully!")
                                     
+                                    # Store results with enhanced caching
+                                    store_simulation_results(model_id, result, "single")
+                                    
                                     with st.expander("📊 Simulation Results"):
                                         st.json(result)
-                                    
-                                    # Store results for other pages
-                                    st.session_state.simulation_results = result
                                 else:
                                     st.error(f"❌ Simulation failed: {result.get('error')}")
                         else:
@@ -1067,5 +1351,7 @@ if st.sidebar.checkbox("Show Debug Info"):
         "total_chat_messages": total_chat_messages,
         "has_results": st.session_state.simulation_results is not None,
         "cached_models": len(st.session_state.cached_model_info),
-        "cached_results": len(st.session_state.cached_model_results)
+        "cached_results": len(st.session_state.cached_model_results),
+        "cached_simulations": len(st.session_state.model_simulation_results),
+        "last_simulation_model": st.session_state.last_simulation_model
     })

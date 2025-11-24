@@ -16,17 +16,13 @@ def extract_script_settings(
     Return a flat settings dict: name -> default (float for numerics/fractions; else original).
     Uses gpt-5-mini by default. Robust to malformed LLM output.
     """
-    # Set OpenAI API key from config
+    # Ensure OpenAI API key is configured globally
     try:
-        from utils.config import settings
-        api_key = settings.openai_api_key
-        if api_key:
-            openai.api_key = api_key
-            print(f"OpenAI API key set in llm_extract: {api_key[:10]}...")
-        else:
-            print("Warning: No OpenAI API key found in config for llm_extract")
+        from utils.openai_config import ensure_openai_api_key
+        ensure_openai_api_key()
+        print("OpenAI API key configured globally in llm_extract")
     except Exception as e:
-        print(f"Warning: Could not load OpenAI API key from config in llm_extract: {e}")
+        print(f"Warning: Could not configure OpenAI API key in llm_extract: {e}")
     
     code = Path(script_path).read_text()
 

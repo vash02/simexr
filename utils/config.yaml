@@ -1,7 +1,0 @@
-openai:
-  api_key: "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"
-database:
-  path: "../mcp.db"
-
-media:
-  root: "../results_media"

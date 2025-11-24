@@ -75,12 +75,13 @@ pip install -r requirements.txt
 
 ### 2. Configuration
 
-Create `utils/config.yaml` with your OpenAI API key:
+Copy the example configuration file and add your OpenAI API key:
 
-```yaml
-openai:
-  api_key: "your-openai-api-key-here"
+```bash
+cp config.yaml.example config.yaml
 ```
+
+Then edit `config.yaml` and replace `YOUR_OPENAI_API_KEY_HERE` with your actual OpenAI API key from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys).
 
 ### 3. Database Setup
 
@@ -108,12 +109,12 @@ Start just the API server for programmatic access:
 
 ```bash
 source simexr_venv/bin/activate
-python start_api.py --host 127.0.0.1 --port 8001
+python start_api.py --host 127.0.0.1 --port 8000
 ```
 
 The server will be available at:
-- **API**: http://127.0.0.1:8001
-- **Documentation**: http://127.0.0.1:8001/docs
+- **API**: http://127.0.0.1:8000
+- **Documentation**: http://127.0.0.1:8000/docs
 
 ### 2. Using the Web Interface
 
@@ -125,13 +126,17 @@ Once the Streamlit app is running, you can:
 4. **🤖 AI Analysis**: Use the "AI Analysis" page to ask questions about your results
 5. **🔍 Search Models**: Use the "Model Search" page to find existing models
 
+## 🔄 End-to-End Flow
+
+**Complete workflow**: Import GitHub scripts → Transform with AI → Run simulations → Analyze results → Get AI insights. The system automatically handles script transformation, parameter extraction, and result storage, enabling researchers to go from raw code to AI-powered insights in minutes.
+
 ### 3. Using the API Directly
 
 If you prefer to use the API directly:
 
 ```bash
 # Import and transform a simulation
-curl -X POST "http://127.0.0.1:8001/simulation/transform/github" \
+curl -X POST "http://127.0.0.1:8000/simulation/transform/github" \
   -H "Content-Type: application/json" \
   -d '{
     "github_url": "https://github.com/vash02/physics-systems-dataset/blob/main/vanderpol.py",
@@ -140,7 +145,7 @@ curl -X POST "http://127.0.0.1:8001/simulation/transform/github" \
   }'
 
 # Run simulations
-curl -X POST "http://127.0.0.1:8001/simulation/run" \
+curl -X POST "http://127.0.0.1:8000/simulation/run" \
   -H "Content-Type: application/json" \
   -d '{
     "model_id": "vanderpol_transform_eac8429aea8f",
@@ -154,7 +159,7 @@ curl -X POST "http://127.0.0.1:8001/simulation/run" \
   }'
 
 # Analyze results with AI
-curl -X POST "http://127.0.0.1:8001/reasoning/ask" \
+curl -X POST "http://127.0.0.1:8000/reasoning/ask" \
   -H "Content-Type: application/json" \
   -d '{
     "model_id": "vanderpol_transform_eac8429aea8f",
@@ -297,7 +302,7 @@ parameters = {
 ### Batch Simulation with Parameter Grids
 
 ```bash
-curl -X POST "http://127.0.0.1:8001/simulation/batch" \
+curl -X POST "http://127.0.0.1:8000/simulation/batch" \
   -H "Content-Type: application/json" \
   -d '{
     "model_id": "your_model_id",
@@ -312,16 +317,16 @@ curl -X POST "http://127.0.0.1:8001/simulation/batch" \
 
 ```bash
 # Search by partial name
-curl "http://127.0.0.1:8001/simulation/models/search?name=vanderpol&limit=5"
+curl "http://127.0.0.1:8000/simulation/models/search?name=vanderpol&limit=5"
 
 # Search by model type
-curl "http://127.0.0.1:8001/simulation/models/search?name=lorenz&limit=3"
+curl "http://127.0.0.1:8000/simulation/models/search?name=lorenz&limit=3"
 ```
 
 ### AI Reasoning with Custom Questions
 
 ```bash
-curl -X POST "http://127.0.0.1:8001/reasoning/ask" \
+curl -X POST "http://127.0.0.1:8000/reasoning/ask" \
   -H "Content-Type: application/json" \
   -d '{
     "model_id": "your_model_id",
@@ -376,7 +381,7 @@ Enable detailed logging by setting environment variables:
 ```bash
 export LOG_LEVEL=DEBUG
 export SIMEXR_DEBUG=true
-python start_api.py --host 127.0.0.1 --port 8001
+python start_api.py --host 127.0.0.1 --port 8000
 ```
 
 ## Performance Optimization

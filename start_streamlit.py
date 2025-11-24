@@ -15,7 +15,7 @@ from pathlib import Path
 def check_api_server():
     """Check if the API server is running."""
     try:
-        response = requests.get("http://127.0.0.1:8001/health/status", timeout=5)
+        response = requests.get("http://127.0.0.1:8000/health/status", timeout=5)
         return response.status_code == 200
     except:
         return False
@@ -29,13 +29,13 @@ def main():
     if not check_api_server():
         print("❌ API server is not running!")
         print("💡 Please start the API server first with:")
-        print("   python start_api.py --host 127.0.0.1 --port 8001")
+        print("   python start_api.py --host 127.0.0.1 --port 8000")
         print("\n🔄 Starting API server automatically...")
         
         # Try to start the API server
         try:
             api_process = subprocess.Popen([
-                sys.executable, "start_api.py", "--host", "127.0.0.1", "--port", "8001"
+                sys.executable, "start_api.py", "--host", "127.0.0.1", "--port", "8000"
             ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             
             # Wait for server to start
@@ -64,7 +64,7 @@ def main():
     # Start Streamlit app
     print("\n🌐 Starting Streamlit app...")
     print("📱 The app will be available at: http://localhost:8501")
-    print("🔗 API server: http://127.0.0.1:8001")
+    print("🔗 API server: http://127.0.0.1:8000")
     print("\n" + "=" * 40)
     
     try:

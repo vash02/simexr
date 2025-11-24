@@ -15,9 +15,31 @@ from matplotlib import pyplot as plt
 try:
     from core.script_utils import _capture_show, _media_dir_for, sanitize_metadata
 except ImportError:
-    # Mock implementations for now
+    # Proper implementations for plot capture
     def _capture_show(images_list):
-        return plt.show
+        """Capture matplotlib plots when plt.show() is called."""
+        def show_hook(*args, **kwargs):
+            # Save current figure to a temporary file
+            if plt.get_fignums():  # If there are any figures
+                import tempfile
+                import uuid
+                
+                # Create a unique filename
+                filename = f"plot_{uuid.uuid4().hex[:8]}.png"
+                filepath = Path(tempfile.gettempdir()) / filename
+                
+                # Save the current figure
+                plt.savefig(filepath, dpi=150, bbox_inches='tight')
+                images_list.append(str(filepath))
+                
+                # Clear the figure to avoid memory issues
+                plt.clf()
+                
+                print(f"DEBUG: Saved plot to {filepath}")
+            else:
+                print("DEBUG: No figures to save")
+        
+        return show_hook
     
     def _media_dir_for(model_id):
         return Path(f"media/{model_id}" if model_id else "media")
@@ -92,6 +114,9 @@ class PythonExecTool(BaseTool):
         g = {"plt": plt, "pd": pd, "np": __import__("numpy")}
         if df is not None:
             g["df"] = df
+
+        # Replace plt.show in the execution context
+        g["plt"].show = old_show
 
         try:
             with contextlib.redirect_stdout(stdout_buf), contextlib.redirect_stderr(stderr_buf):

@@ -11,14 +11,14 @@ class ReasoningService:
     def __init__(self, repository: ReasoningRepository = None):
         self.repository = repository or ReasoningRepository()
 
-    def store_report(self, model_id: str, question: str, answer: str, image_paths: List[str]) -> None:
+    def store_report(self, model_id: str, question: str, answer, image_paths: List[str]) -> None:
         """
         Store a reasoning report with associated images.
 
         Args:
             model_id: The ID of the model
             question: The question asked
-            answer: The answer provided
+            answer: The answer provided (can be string or dict)
             image_paths: List of paths to associated images
         """
         try:
